@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo.png">
+    <title>Gerador de QR Code</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            height: 100vh;
+        }
+        .card {
+            width: 100%;
+            max-width: 1000px;
+            background-color: #040404;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        #qrcode-container {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #qrcode {
+            display: inline-block;
+            padding: 10px;
+            background: white;
+        }
+        .input-container {
+            text-align: center;
+        }
+
+        input{
+            font-size: 1rem;
+            padding: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+            width: 100%;
+            border-radius: 5px;
+            border: 2px solid #7a7a7a56;
+            background: #fff;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        .btn {
+            margin-top: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+            background-color: #2aa6ee;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #1b87c9;
+        }
+
+    </style>
+</head>
+<body class="text-center">
+    <main>
+        <div id="input-container">
+            <div class="card">
+                <h3>Gerador de QRcodes</h3>
+                <input type="text" name="link" id="link" placeholder="Link..." required>
+                <button class="btn" id="generateQRCode" onclick="generateQRCode()">Gerar QR Code</button>
+            </div>
+        </div>
+        <div id="qrcode-container">
+            <div class="card">
+                <h4 style="color: #f9f9f9; text-align:center;">Aqui está o seu QRcode!</h4>
+                <div id="qrcode"></div>
+                <button class="btn" id="downloadBtn" style="display: none;" onclick="downloadQRCode()">Baixar</button>
+            </div>
+        </div>
+
+    </main>
+    
+    <script src="js/qrcode.js"></script>
+
+</body>
+</html>
