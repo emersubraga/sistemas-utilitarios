@@ -3,82 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/logo.png">
+    <link rel="icon" href="img/brasão.png">
     <title>Sistemas Utilitários</title>
     <meta property="og:title" content="Sistemas Utilitários" />
     <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
     <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: Arial, sans-serif;
+            background: #7c7c7c;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            background-color:  #161616;
-            height: 90vh;
         }
+
+        header {
+            position: relative;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header img {
+            min-width: 17%;
+            max-width: 17%;
+            margin-bottom: 5px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
         .container {
             display: flex;
+            flex-wrap: wrap;
             gap: 20px;
+            justify-content: center;
         }
+
         .btn {
             padding: 10px 20px;
             font-size: 1rem;
-            background-color: #2aa6ee;
-            color: black;
-            border: #2aa6ee;
+            background-color: #27681e;
+            color: rgb(255, 255, 255);
+            border: #27681e;
             border-radius: 5px;
             cursor: pointer;
-            text-decoration:dotted;
-            display: inline-block;
             text-align: center;
+            min-width: 220px;
         }
+
         .btn:hover {
-            color: black;
-            background-color: #1b87c9;
+            background-color: #3cad2d;
+            color: white;
         }
 
         .btn-outline-success {
-            color: #2aa6ee;
-            border-color: #1b87c9;
-            background-color: transparent;
-            border: solid 2px #1b87c9;
-        }
-
-
-        .my-2 {
-            margin-top: 0.5rem !important;
-            margin-bottom: 0.5rem !important;
-        }
-
-        .my-sm-0 {
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
+            color: #fff;
+            border-color: #3cad2d;
+            background-color: #27681e;
+            border: solid 2px #3cad2d;
         }
 
         footer {
             background-color: transparent;
-            color: white;
+            color: #ffffff;
             padding: 15px;
-            bottom: 0;
-            position: fixed;
-            width: 90%;
             text-align: center;
         }
 
-        footer p{
+        footer p {
+            margin-bottom: 0px;
             font-size: 13px;
             font-style: italic;
+        }
+
+        .container-img {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sombra {
+            position: absolute;
+            top: 0;
+            filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
+            z-index: 0;
+        }
+
+        .normal {
+            position: relative;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="comprovacoes-fotos.html" class="btn btn-outline-success my-2 my-sm-0">Relatório Fotográfico</a>
-        <a href="comprovacoes-legendadas.html" class="btn btn-outline-success my-2 my-sm-0">Relatório Fotográfico com Legendas</a>
-    </div>
+    <header class="text-center">
+        <div class="container-img">
+            <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
+            <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+        </div>
+        
+        <h6 style="font-weight: 550; font-size: 15px;text-shadow: 0px 0px 10px #fffffffb;">DEPARTAMENTO DE COMPRAS</h6>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="comprovacoes-fotos.html" class="btn btn-outline-success my-2 my-sm-0">Relatório Fotográfico</a>
+            <a href="comprovacoes-legendadas.html" class="btn btn-outline-success my-2 my-sm-0">Relatório Fotográfico com Legendas</a>
+        </div>
+    </main>
+    
     <footer>
         <p> &copy; 2025 - Design e Código por Emerson Braga.</p>     
     </footer>

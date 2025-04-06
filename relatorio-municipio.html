@@ -3,36 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/logo.png">
+    <link rel="icon" href="img/brasão.png">
     <title>Gerador de Comprovações</title>
     <meta property="og:title" content="Sistemas Utilitários" />
     <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
     <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-            height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #7c7c7c;
+        }
+
+        header {
+            position: relative;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header img {
+            min-width: 17%;
+            max-width: 17%;
+            margin-bottom: 5px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
         .card {
             width: 100%;
-            max-width: 1000px;
+            max-width: 500px;
             background-color: #040404;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 0px 20px #fffffff6;
             color: white;
         }
-        .input-row{
+
+        .input-row {
             display: flex;
             flex-direction: row;
             justify-content: space-around;
         }
+
         input, select, textarea {
             font-size: 1rem;
             padding: 5px;
@@ -45,24 +70,64 @@
             color: #000;
             margin-bottom: 10px;
         }
+
         .btn {
             margin-top: 15px;
             padding: 10px;
             font-size: 1rem;
             width: 100%;
-            background-color: #2aa6ee;
-            color: white;
+            background-color: #27681e;
+            color: rgb(255, 255, 255);
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         .btn:hover {
-            background-color: #1b87c9;
+            background-color: #3cad2d;
+            color: white;
+        }
+
+        footer {
+            background-color: transparent;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 0px;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .container-img {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sombra {
+            position: absolute;
+            top: 0;
+            filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
+            z-index: 0;
+        }
+
+        .normal {
+            position: relative;
+            z-index: 1;
         }
 
     </style>
 </head>
 <body>
+    <header>
+        <div class="container-img">
+            <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
+            <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+        </div>
+        <h6 style="font-weight: 550; font-size: 15px; text-shadow: 0px 0px 10px #fffffffb;">DEPARTAMENTO DE COMPRAS</h6>
+    </header>
 
     <main>
         <div class="card">
@@ -105,6 +170,10 @@
             </form>
         </div>
     </main>
+
+    <footer>
+        <p> &copy; 2025 - Design e Código por Emerson Braga.</p>     
+    </footer>
 
     <script src="js/relatorio-municipio.js"></script>
 </body>

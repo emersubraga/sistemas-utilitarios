@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/logo.png">
+    <link rel="icon" href="img/brasão.png">
     <title>Gerador de QR Code</title>
     <meta property="og:title" content="Sistemas Utilitários" />
     <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
@@ -12,39 +12,59 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-            height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #7c7c7c;
+        }
+
+        header {
+            position: relative;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        header img {
+            min-width: 17%;
+            max-width: 17%;
+            margin-bottom: 5px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .coluna{
+            display: flex;
+            flex-direction: column;
+        }
+
         .card {
             width: 100%;
-            max-width: 1000px;
+            max-width: 500px;
             background-color: #040404;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 0px 20px #fffffff6;
             color: white;
         }
 
-        #qrcode-container {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        #qrcode {
-            display: inline-block;
-            padding: 10px;
-            background: white;
-        }
-        .input-container {
-            text-align: center;
+        .input-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
         }
 
-        input{
+        input, select, textarea {
             font-size: 1rem;
             padding: 5px;
             margin-left: 5px;
@@ -56,41 +76,100 @@
             color: #000;
             margin-bottom: 10px;
         }
+
         .btn {
             margin-top: 15px;
             padding: 10px;
             font-size: 1rem;
             width: 100%;
-            background-color: #2aa6ee;
-            color: white;
+            background-color: #27681e;
+            color: rgb(255, 255, 255);
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         .btn:hover {
-            background-color: #1b87c9;
+            background-color: #3cad2d;
+            color: white;
+        }
+
+        footer {
+            background-color: transparent;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 0px;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .container-img {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sombra {
+            position: absolute;
+            top: 0;
+            filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
+            z-index: 0;
+        }
+
+        .normal {
+            position: relative;
+            z-index: 1;
+        }
+
+        #qrcode-container {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+        #qrcode {
+            display: inline-block;
+            padding: 5px;
+            background: rgb(0, 0, 0);
         }
 
     </style>
 </head>
 <body class="text-center">
+    <header class="text-center">
+        <div class="container-img">
+            <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
+            <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+        </div>
+        
+        <h6 style="font-weight: 550; font-size: 15px;text-shadow: 0px 0px 10px #fffffffb;">DEPARTAMENTO DE COMPRAS</h6>
+    </header>
     <main>
-        <div id="input-container">
-            <div class="card">
-                <h3>Gerador de QRcodes</h3>
-                <input type="text" name="link" id="link" placeholder="Link..." required>
-                <button class="btn" id="generateQRCode" onclick="generateQRCode()">Gerar QR Code</button>
+        <div class="coluna">
+            <div id="input-container" style="margin-top: 100px;">
+                <div class="card">
+                    <h3>Gerador de QRcodes</h3>
+                    <input type="text" name="link" id="link" placeholder="Link..." required>
+                    <button class="btn" id="generateQRCode" onclick="generateQRCode()">Gerar QR Code</button>
+                </div>
+            </div>
+            <div id="qrcode-container" >
+                <div class="card">
+                    <h4 style="color: #f9f9f9; text-align:center;">Aqui está o seu QRcode!</h4>
+                    <div id="qrcode"></div>
+                    <button class="btn" id="downloadBtn" style="display: none;" onclick="downloadQRCode()">Baixar</button>
+                </div>
             </div>
         </div>
-        <div id="qrcode-container">
-            <div class="card">
-                <h4 style="color: #f9f9f9; text-align:center;">Aqui está o seu QRcode!</h4>
-                <div id="qrcode"></div>
-                <button class="btn" id="downloadBtn" style="display: none;" onclick="downloadQRCode()">Baixar</button>
-            </div>
-        </div>
+        
 
     </main>
+
+    <footer>
+        <p> &copy; 2025 - Design e Código por Emerson Braga.</p>     
+    </footer>
     
     <script src="js/qrcode.js"></script>
 
