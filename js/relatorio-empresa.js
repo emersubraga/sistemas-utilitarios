@@ -9,6 +9,7 @@ document.getElementById("form").addEventListener("submit", function(event) {
     const cidade = document.getElementById("cidade").value;
     const titulo = document.getElementById("titulo").value;
     const assinaturaNome = document.getElementById("assinaturaNome").value;
+    const assinaturaFuncao = document.getElementById("assinaturaFuncao").value;
     const assinaturaCodigo = document.getElementById("assinaturaCodigo").value;
     const data = document.getElementById("data").value;
     const texto = document.getElementById("texto").value;
@@ -16,10 +17,10 @@ document.getElementById("form").addEventListener("submit", function(event) {
     const dataInput = new Date(data);
     const dataFormatada = dataInput.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
-    gerarPaginaHTML(empresa, cnpj, logradouro, bairro, numero, cidade, titulo, assinaturaNome, assinaturaCodigo, dataFormatada, texto);
+    gerarPaginaHTML(empresa, cnpj, logradouro, bairro, numero, cidade, titulo, assinaturaNome, assinaturaFuncao, assinaturaCodigo, dataFormatada, texto);
 });
 
-function gerarPaginaHTML(empresa, cnpj, logradouro, bairro, numero, cidade, titulo, assinaturaNome, assinaturaCodigo, dataFormatada, texto) {
+function gerarPaginaHTML(empresa, cnpj, logradouro, bairro, numero, cidade, titulo, assinaturaNome, assinaturaFuncao, assinaturaCodigo, dataFormatada, texto) {
     let conteudoHTML = `
         <html lang="pt-BR">
         <head>
@@ -47,7 +48,7 @@ function gerarPaginaHTML(empresa, cnpj, logradouro, bairro, numero, cidade, titu
                 }
                 header img{
                     margin-top: -10px;
-                     margin-bottom: 10px;
+                    margin-bottom: 10px;
                 }
                 header p {
                     margin-top: -5px;
@@ -81,25 +82,30 @@ function gerarPaginaHTML(empresa, cnpj, logradouro, bairro, numero, cidade, titu
                 <p class="center" style="font-family: Arial Narrow; font-size: 17px;">${cnpj}</p>
                 <p class="center" style="font-family: Arial Narrow; font-size: 17px;">${logradouro}, ${numero}, ${bairro}</p>
                 <p class="center" style="font-family: Arial Narrow; font-size: 17px;">${cidade}</p>
-    `;
-
-
-    conteudoHTML += `
         </header>
             <main>
                 <br><br><p class="center" style="font-size: 20px;">${titulo}</p><br>
             </main>
     `;
 
-    
-    conteudoHTML += `<div class="centralizado" style="text-align: justify; text-indent: 30px;"><p> ${texto} </p></div><br><br>
-                    <p class="right"> ${dataFormatada} </p><br>
-                    <div class="center" style="margin-top:40px;">
-                    <p>___________________________________________</p>
-                    <p><strong> ${assinaturaNome} </strong><br>
-                    ${assinaturaCodigo}</p></div>
+    // Transforma texto em parágrafos justificados com recuo
+    const paragrafos = texto
+        .split('\n')
+        .filter(linha => linha.trim() !== '')
+        .map(linha => `<p style="text-indent: 30px; text-align: justify;">${linha}</p>`)
+        .join('');
+
+    conteudoHTML += `
+        <div class="centralizado">
+            ${paragrafos}
+        </div><br><br>
+        <p class="right">${dataFormatada}</p><br>
+        <div class="center" style="margin-top:40px;">
+            <p>___________________________________________</p>
+            <p><strong>${assinaturaNome}</strong><br>
+            ${assinaturaFuncao}<br>${assinaturaCodigo}</p>
+        </div>
     `;
-    
 
     conteudoHTML += `
         </body>

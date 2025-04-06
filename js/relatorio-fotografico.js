@@ -32,7 +32,8 @@ function gerarPaginaHTML(empresa, ordem, nota, data, modelo, imagens) {
                     border-bottom: 2px solid #000000;
                 }
                 header img{
-                     margin-bottom: 10px;
+                    margin-top: -10px;
+                    margin-bottom: 10px;
                 }
                 header p {
                     margin-top: -5px;

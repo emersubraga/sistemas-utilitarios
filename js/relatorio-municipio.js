@@ -43,7 +43,7 @@ function gerarPaginaHTML(titulo, assinaturaNome, assinaturaFuncao, assinaturaCod
                 }
                 header img{
                     margin-top: -10px;
-                     margin-bottom: 10px;
+                    margin-bottom: 10px;
                 }
                 header p {
                     margin-top: -5px;
@@ -128,12 +128,23 @@ function gerarPaginaHTML(titulo, assinaturaNome, assinaturaFuncao, assinaturaCod
     `;
 
     
-    conteudoHTML += `<div class="centralizado" style="text-align: justify; text-indent: 30px;"><p> ${texto} </p></div><br><br>
-                    <p class="right"> ${dataFormatada} </p><br>
-                    <div class="center" style="margin-top:40px;">
-                    <p>___________________________________________</p>
-                    <p><strong> ${assinaturaNome} </strong><br>
-                    ${assinaturaFuncao}<br>${assinaturaCodigo}</p></div>
+    // Transforma texto em parágrafos justificados com recuo
+    const paragrafos = texto
+        .split('\n')
+        .filter(linha => linha.trim() !== '')
+        .map(linha => `<p style="text-indent: 30px; text-align: justify;">${linha}</p>`)
+        .join('');
+
+    conteudoHTML += `
+        <div class="centralizado">
+            ${paragrafos}
+        </div><br><br>
+        <p class="right">${dataFormatada}</p><br>
+        <div class="center" style="margin-top:40px;">
+            <p>___________________________________________</p>
+            <p><strong>${assinaturaNome}</strong><br>
+            ${assinaturaFuncao}<br>${assinaturaCodigo}</p>
+        </div>
     `;
     
 
