@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorando</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .center {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .spaced {
+            margin-top: 0px;
+        }
+
+        header {
+            margin-bottom: 5px;
+            border-bottom: 2px solid #000000;
+        }
+
+        header img {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            margin-top: -5px;
+            margin-bottom: 5px;
+        }
+
+        main p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .image-container { 
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 10px; 
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px; 
+        }
+
+        .page-break {
+            page-break-before: always;
+            margin-top: 20px;
+        }
+
+        .container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px; /* controla a largura da "folha" */
+            margin: 0 auto;   /* centraliza horizontalmente */
+            padding: 20px;    /* adiciona espaço interno */
+        }
+
+        .titulo-data {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 155px; /* Define o espaço entre os títulos */
+        }
+
+        .titulo-data h4 {
+            margin: 0;
+        }
+
+        .remetente-destinatario {
+            display: flex;
+            flex-direction: column;
+            margin-right: 300px;
+            gap: 0;
+        }
+
+        .assunto {
+            display: flex;
+            text-align: justify;
+            gap: 200px;
+        }
+
+        .anexo {
+            display: flex;
+            margin-right: 400px;
+        }
+
+        .saudacao p.recuo-duplo {
+            text-indent: 7em;
+        }
+
+        .resolucao{
+            display: flex;
+            text-align: justify;
+        }
+        .resolucao p.recuo-duplo {
+            text-indent: 7em;
+        }
+
+        .artigo-recuado {
+            margin-left: 16em;   /* Recuo à esquerda (opcional) */
+            text-align: justify;
+            font-style: italic; /* Opcional: deixa com aparência de citação */
+            font-size: 13px;
+        }
+
+        .clausulas {
+            display: flex;
+            text-align: justify;
+        }
+
+        .assinatura {
+            text-align: center;
+            margin: 50px auto 0 auto; /* margem superior opcional pra afastar do conteúdo anterior */
+            width: fit-content; /* mantém só o tamanho necessário */
+        }
+
+        .tabela {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 50px auto 0 auto; /* margem superior opcional pra afastar do conteúdo anterior */
+            width: auto; /* mantém só o tamanho necessário */
+        }
+
+        .tabela h5 {
+            margin: 5px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabela table {
+            width: 650px;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .tabela th, .tabela td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .tabela thead {
+            background-color: #f0f0f0;
+        }
+
+        .tabela tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="center">
+        <img src="img/brasão.png" width="50" height="50" alt="Brasão">
+        <p style="font-family: Arial Narrow; font-size: 17px;">ESTADO DO RIO GRANDE DO NORTE</p>
+        <p style="font-family: Arial Narrow; font-size: 17px;">PREFEITURA MUNICIPAL DE CARAÚBAS</p>
+        <p style="font-family: Arial Narrow; font-size: 20px;">SECRETARIA MUNICIPAL DE SAÚDE</p>
+        <p style="font-family: Arial Narrow; font-size: 17px;">CNPJ Nº 11.388.450/0001-10</p>
+    </header>
+    <main>
+        <div class="container">
+            <div class="titulo-data">
+                <h4>Memorando nº 931/2025-SMS</h4>
+                <h4>Caraúbas/RN, 08 de Dezembro de 2025.</h4>
+            </div><br><br>
+
+            <div class="remetente-destinatario">
+                <p><strong>Da:</strong> Secretaria Municipal de Saúde</p>
+                <p><strong>Ao:</strong> Sr. Prefeito do Município de Caraúbas</p>
+            </div><br><br>
+
+            <div class="assunto">
+                <p><strong>Assunto:</strong> Solicitação de medidas administrativas visando locação de máquinas
+                    e equipamentos automatizados, com manutenções preventiva e corretiva, bem
+                    como o fornecimento de insumos e reagentes para a realização de serviços
+                    de exames em amostras humanas em laboratório, em atendimento às necessidades
+                    da Secretaria Municipal de Saúde do município de Caraúbas/RN.</p>
+            </div><br>
+            <div class="anexos">
+                <p><strong>Anexo:</strong> Tabela com especificação e quantidade dos itens.</p>
+            </div><br>
+            <div class="saudacao">
+                <p class="recuo-duplo">Excelentíssimo Senhor Prefeito,</p>
+            </div>
+            <div class="resolucao">
+                <p class="recuo-duplo">Com previsão legal no inciso I do art. 
+                    10 da Resolução nº 28 de 15 de dezembro
+                     de 2020 do Tribunal de Contas do Estado 
+                     do Rio Grande do Norte, vem essa Unidade 
+                     Administrativa requisitar a abertura de 
+                     processo de despesa pública, considerando
+                      a necessidade de desenvolver o atendimento
+                       do que consta especificado no Anexo I da
+                        presente solicitação, no afã de satisfazer
+                         a contento, conforme as seguintes disposições,
+                          <strong>in verbis:</strong></p>
+            </div>
+            <div class="artigo">
+                <p class="artigo-recuado">
+                    Art. 10. Os processos de comprovação da despesa pública orçamentária realizada pelo regime ordinário ou comum, afora outros documentos previstos em legislação específica, serão compostos, obrigatoriamente, das seguintes peças:<br>
+                    I – solicitação para a realização da despesa, à qual deverá ser juntada:<br>
+                    a) as justificativas da real necessidade da contratação;<br>
+                    b) a definição precisa, suficiente e clara do objeto da contratação, podendo tomar a forma de:<br>
+                    1. “projeto básico”, devidamente acompanhado do ato de sua aprovação pela autoridade competente, nos casos de contratação para a execução de obras e para a prestação de serviços;<br> 
+                    2. “termo de referência”, na forma e nos casos em que a legislação o exigir; ou<br>
+                    3. “especificações técnicas do objeto da contratação”, contendo as definições acerca da especificação, da unidade e da quantidade relativamente a cada bem a ser adquirido, no caso de compras.
+                </p>
+            </div><br>
+            <div class="clausulas">
+                <p><strong>1. DO OBJETO</strong><br>
+                1.1. Este objeto consiste na solicitação
+                 de medidas administrativas visando 
+                 Locação de máquinas e equipamentos 
+                 automatizados, com manutenções preventiva
+                  e corretiva, bem como o fornecimento de 
+                  insumos e reagentes para a realização de
+                   serviços de exames em amostras humanas em
+                    laboratório em atendimento as necessidades
+                     da Secretaria Municipal de Saúde do município
+                      de Caraúbas/RN.</p>
+            </div>
+            <div class="clausulas">
+                <p><strong>2. DA MOTIVAÇÃO PARA SOLICITAÇÃO:</strong><br>
+                    2.1. A solicitação dos serviços para locação dos equipamentos em comodato e reagentes, são essenciais para o funcionamento das atividades do laboratório municipal de Análises Clínicas para que seus servidores possam desempenhar suas atividades regimentais a contento, proporcionando melhores condições no atendimento ao público em geral, tornando célere a resposta aos anseios da sociedade. 
+                    <br>2.2. Com alta demanda dos exames laboratoriais em nosso município é necessária ter um processo licitatório de comodato, onde o mesmo já seja incluído o maquinário automatizado, com a reposição dos reagentes, que são da mesma marca compatível com o equipamento disponibilizado e a manutenção preventiva do mesmo.
+                    <br>2.3. Estes serviços são parte importante da atenção à saúde, pois junto eles fazem com que a saúde de nosso município seja mais complexa, verificando o estado de saúde do paciente e/ou investigando doenças, como os chamados exames de rotina, check-ups, dentre outros.
+                    <br>2.4. Além disso, o acesso da população constitui como direito humano fundamental na integralidade de ações voltadas à saúde, sendo determinante para a obtenção de menor ou maior resultado. Com isso é necessário à aquisição desses equipamentos e desses reagentes para o suprimento dessa demanda, para que toda a população seja assistida. 
+                    </p>
+            </div>
+            <div class="clausulas">
+                <p><strong>3. DA DOTAÇÃO ORÇAMENTÁRIA:</strong><br>
+                    3.1. As despesas decorrentes da aquisição do objeto
+                    desta solicitação correrão à conta de recursos
+                    específicos consignados no Orçamento Geral do 
+                    município, conforme abaixo discriminado:<br><br>
+                    <strong>Unidade orçamentária: 9001 –</strong> Fundo Municipal de Saúde<br>
+                    <strong>Ação 2126: Manutenção e Estruturação dos Serviços do Laboratório Municipal de Análises Clinicas</strong><br> 
+                    <strong>Despesa: 33.90.39 –</strong> Outros Serviços de Terceiros – Pessoa Jurídica<br> 
+                    <strong>Fonte de Recurso:</strong>  15001002 – Recursos não vinculados de impostos – Despesas com ações e serviços públicos de saúde</p>
+            </div>
+            <div class="clausulas">
+                <p><strong>4.DO PEDIDO:</strong><br>
+                    4.1. Diante o exposto, a fim de propiciar
+                    uma melhor qualidade dos serviços públicos
+                    prestados à população caraubense, solicito
+                    despacho do Excelentíssimo Senhor Prefeito
+                    autorizando a consecução do pretenso processo
+                    administrativo, dentro das premissas da 
+                    legalidade, impessoalidade, publicidade, eficiência,
+                    transparência, economicidade e celeridade e melhor
+                    efetividade no trato da coisa pública, primando pela
+                    ampliação das atividades do Poder Executivo no desempenho
+                    de suas atribuições institucionais junto à população caraubense.<br><br><br>
+                    Respeitosamente, 
+                </p>
+            </div>
+            <div class="assinatura">
+                <p><strong>Francisco Fulano da Silva</strong></p>
+                <p>Secretário Municipal de Saúde</p>
+                <p>000.000.000-00</p>
+            </div>
+
+            <div class="tabela">
+                <h5>ANEXO ÚNICO</h5>
+                <h5>TABELA COM DISCRIMINAÇÃO DOS ITENS</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ITEM</th>
+                            <th>Descrição</th>
+                            <th>UND</th>
+                            <th>QTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Álcool 70%</td>
+                            <td>Litro</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Luvas descartáveis</td>
+                            <td>Caixa</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Máscara cirúrgica</td>
+                            <td>Unidade</td>
+                            <td>200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="assinatura">
+                <p><strong>Caraúbas/RN, 08 de dezembro de 2025.</strong></p><br><br><br><br><br><br>
+                <p><strong>Francisco Fulano da Silva</strong></p>
+                <p>Secretário Municipal de Saúde</p>
+                <p>000.000.000-00</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
