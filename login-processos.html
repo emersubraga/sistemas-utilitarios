@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Controle de Licitações</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f1f1f1; }
+    .login-box { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .login-box h2 { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="email" id="email" class="form-control mb-2" placeholder="Email">
+    <input type="password" id="senha" class="form-control mb-3" placeholder="Senha">
+    <button class="btn btn-primary w-100" onclick="login()">Entrar</button>
+    <div id="erro" class="text-danger mt-2"></div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyA7CMtNAmd4AJiCyho5O0JZSSNFhP1iM_U",
+        authDomain: "controle-ordens-e461e.firebaseapp.com",
+        databaseURL: "https://controle-ordens-e461e-default-rtdb.firebaseio.com",
+        projectId: "controle-ordens-e461e",
+        storageBucket: "controle-ordens-e461e.firebasestorage.app",
+        messagingSenderId: "843214621145",
+        appId: "1:843214621145:web:4d0f5748172b7ba242f1c8",
+        measurementId: "G-S88RXTLRRL"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value.trim();
+      auth.signInWithEmailAndPassword(email, senha)
+        .then(() => window.location.href = 'controle-processos.html')
+        .catch(err => document.getElementById('erro').innerText = err.message);
+    }
+  </script>
+</body>
+</html>
