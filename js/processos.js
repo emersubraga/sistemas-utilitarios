@@ -34,11 +34,11 @@ let processoSelecionado = null;
 const etapasPorTipoEStatus = {
   Pregão: {
     compra: ['Recebimento de DFD', 'Elaboração de TR', 'Pesquisa de Preços'],
-    licitacao: ['Elaboração do Edital', 'Publicação', 'Sessão Pública', 'Homologação']
+    licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicaçaõ do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
   },
   Dispensa: {
     compra: ['Recebimento de DFD', 'Cotação de Preços'],
-    licitacao: ['Justificativa da Dispensa', 'Ratificação']
+    licitacao: ['Publicado Avido de Contratação Direta', 'Enviado ao Setor de Compras para aguardar recebimento de propostas', 'Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
   },
   Inexigibilidade: {
     compra: ['Recebimento de DFD', 'Cotação Única'],
@@ -46,7 +46,7 @@ const etapasPorTipoEStatus = {
   },
   Adesão: {
     compra: ['Recebimento de DFD', 'Identificação da Ata'],
-    licitacao: ['Elaboração da Solicitação', 'Ratificação']
+    licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Envio de Memorandos de orientação para as Secretarias', 'Termo de Vantajosidade', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
   }
 };
 
@@ -248,51 +248,3 @@ db.ref('processos').on('value', snap => {
   });
   filtrarProcessos();
 });
-
-function abrirModalDFD(id) {
-  processoDFDAtual = id;
-  const container = document.getElementById('dfdCheckboxes');
-  container.innerHTML = '';
-
-  db.ref('processos/' + id).once('value').then(snap => {
-    const dados = snap.val();
-    const dfds = dados.dfds || {};
-
-    (dados.secretarias || []).forEach(sec => {
-      const div = document.createElement('div');
-      div.className = 'form-check';
-
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.className = 'form-check-input';
-      checkbox.id = 'chk_' + sec;
-      checkbox.checked = dfds[sec] || false;
-
-      const label = document.createElement('label');
-      label.className = 'form-check-label';
-      label.htmlFor = 'chk_' + sec;
-      label.textContent = sec;
-
-      div.appendChild(checkbox);
-      div.appendChild(label);
-      container.appendChild(div);
-    });
-
-    new bootstrap.Modal(document.getElementById('dfdModal')).show();
-  });
-}
-
-function salvarDFDs() {
-  if (!processoDFDAtual) return;
-
-  const dfds = {};
-  secretariasFixas.forEach(sec => {
-    const checked = document.getElementById('chk_' + sec)?.checked;
-    dfds[sec] = !!checked;
-  });
-
-  db.ref('processos/' + processoDFDAtual + '/dfds').set(dfds).then(() => {
-    bootstrap.Modal.getInstance(document.getElementById('dfdModal')).hide();
-    processoDFDAtual = null;
-  });
-}
