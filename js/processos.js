@@ -9,7 +9,23 @@ const firebaseConfig = {
   measurementId: "G-S88RXTLRRL"
 };
 
+const secretariasFixas = [
+  "Administração", "Educação", "Saúde", "Assistência Social", "Governo",
+  "Controladoria", "Procuradoria", "Transportes", "Infraestrutura",
+  "Políticas do Campo", "Receita", "Finanças", "Planejamento"
+];
+let processoDFDAtual = null;
+
+
 firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+let usuarioLogado = false;
+
+auth.onAuthStateChanged(user => {
+  usuarioLogado = !!user;
+});
+
 const db = firebase.database();
 
 let processosCache = [];
@@ -54,23 +70,36 @@ function getCardColor(status) {
 }
 
 function adicionarProcesso() {
+  if (!usuarioLogado) return alert("Você precisa estar logado para adicionar.");
+
   const numero = document.getElementById('numero').value.trim();
   const descricao = document.getElementById('descricao').value.trim();
   const tipo = document.getElementById('tipo').value.trim();
   const protocolo = document.getElementById('protocolo').value.trim();
-  if (!numero || !descricao || !tipo || !protocolo) return alert("Preencha todos os campos.");
+  const secretarias = Array.from(document.querySelectorAll('#checkboxContainer input[type=checkbox]:checked'))
+  .map(cb => cb.value);
+
+  if (!numero || !descricao || !tipo || !protocolo || secretarias.length === 0)
+    return alert("Preencha todos os campos e selecione pelo menos uma secretaria.");
 
   const etapaInicial = getEtapasPorTipo(tipo, 'compra')[0] || 'Início';
+  const dfds = {};
+  secretarias.forEach(sec => dfds[sec] = false);
 
   const novo = {
     numero, descricao, tipo, protocolo,
     status: "compra",
     etapa: etapaInicial,
+    secretarias,
+    dfds,
     log: [`${new Date().toLocaleString()} - ${etapaInicial}`]
   };
+
   db.ref('processos').push(novo);
   ['numero', 'descricao', 'tipo', 'protocolo'].forEach(id => document.getElementById(id).value = '');
+  selectSecretarias.selectedIndex = -1;
 }
+
 
 function renderProcesso(id, proc) {
   const filtro = document.getElementById('filtro').value.toLowerCase();
@@ -97,6 +126,14 @@ function renderProcesso(id, proc) {
     ${proc.status !== 'finalizado' ? `
       <button class="btn btn-sm btn-secondary" onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">Etapa</button>
     ` : ''}
+    ${proc.etapa === 'Recebimento de DFD' ? `
+      <button class="btn btn-sm btn-info mt-1" onclick="abrirModalDFD('${id}')">Receber DFDs</button>
+    ` : ''}
+    ${proc.etapa === 'Recebimento de DFD' && proc.dfds ? (() => {
+      const total = Object.keys(proc.dfds).length;
+      const recebidos = Object.values(proc.dfds).filter(v => v).length;
+      return `<div><small><b>DFDs:</b> ${recebidos}/${total} recebidos</small></div>`;
+    })() : ''}
   `;
   document.getElementById(proc.status).appendChild(card);
 }
@@ -117,12 +154,17 @@ function verLog(id) {
 }
 
 function removerProcesso(id) {
+  if (!usuarioLogado) return alert("Você precisa estar logado para remover.");
+
   if (confirm("Deseja excluir?")) {
     db.ref('processos/' + id).remove();
   }
 }
 
+
 function drop(ev) {
+  if (!usuarioLogado) return;
+
   ev.preventDefault();
   const id = ev.dataTransfer.getData('id');
   const novoStatus = ev.target.closest('.column').id;
@@ -181,6 +223,7 @@ function abrirModalEtapa(id, etapaAtual, statusAtual) {
 }
 
 function salvarEtapa() {
+  if (!usuarioLogado) return alert("Você precisa estar logado para alterar a etapa.");
   const novaEtapa = document.getElementById('etapaSelect').value;
   if (!processoSelecionado || !novaEtapa) return;
 
@@ -205,3 +248,51 @@ db.ref('processos').on('value', snap => {
   });
   filtrarProcessos();
 });
+
+function abrirModalDFD(id) {
+  processoDFDAtual = id;
+  const container = document.getElementById('dfdCheckboxes');
+  container.innerHTML = '';
+
+  db.ref('processos/' + id).once('value').then(snap => {
+    const dados = snap.val();
+    const dfds = dados.dfds || {};
+
+    (dados.secretarias || []).forEach(sec => {
+      const div = document.createElement('div');
+      div.className = 'form-check';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'form-check-input';
+      checkbox.id = 'chk_' + sec;
+      checkbox.checked = dfds[sec] || false;
+
+      const label = document.createElement('label');
+      label.className = 'form-check-label';
+      label.htmlFor = 'chk_' + sec;
+      label.textContent = sec;
+
+      div.appendChild(checkbox);
+      div.appendChild(label);
+      container.appendChild(div);
+    });
+
+    new bootstrap.Modal(document.getElementById('dfdModal')).show();
+  });
+}
+
+function salvarDFDs() {
+  if (!processoDFDAtual) return;
+
+  const dfds = {};
+  secretariasFixas.forEach(sec => {
+    const checked = document.getElementById('chk_' + sec)?.checked;
+    dfds[sec] = !!checked;
+  });
+
+  db.ref('processos/' + processoDFDAtual + '/dfds').set(dfds).then(() => {
+    bootstrap.Modal.getInstance(document.getElementById('dfdModal')).hide();
+    processoDFDAtual = null;
+  });
+}
