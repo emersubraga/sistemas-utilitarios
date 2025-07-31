@@ -34,11 +34,11 @@ let processoSelecionado = null;
 const etapasPorTipoEStatus = {
   Pregão: {
     compra: ['Recebimento de DFD', 'Elaboração de TR', 'Pesquisa de Preços'],
-    licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicaçaõ do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
+    licitacao: ['Elaboração do Edital', 'Publicação', 'Sessão Pública', 'Homologação']
   },
   Dispensa: {
     compra: ['Recebimento de DFD', 'Cotação de Preços'],
-    licitacao: ['Publicado Avido de Contratação Direta', 'Enviado ao Setor de Compras para aguardar recebimento de propostas', 'Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
+    licitacao: ['Justificativa da Dispensa', 'Ratificação']
   },
   Inexigibilidade: {
     compra: ['Recebimento de DFD', 'Cotação Única'],
@@ -46,7 +46,7 @@ const etapasPorTipoEStatus = {
   },
   Adesão: {
     compra: ['Recebimento de DFD', 'Identificação da Ata'],
-    licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Envio de Memorandos de orientação para as Secretarias', 'Termo de Vantajosidade', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
+    licitacao: ['Elaboração da Solicitação', 'Ratificação']
   }
 };
 
@@ -76,7 +76,7 @@ function adicionarProcesso() {
   const descricao = document.getElementById('descricao').value.trim();
   const tipo = document.getElementById('tipo').value.trim();
   const protocolo = document.getElementById('protocolo').value.trim();
-  const secretarias = Array.from(document.querySelectorAll('#checkboxContainer input[type=checkbox]:checked'))
+  const secretarias = Array.from(document.querySelectorAll('#formulario input[type=checkbox]:checked'))
   .map(cb => cb.value);
 
   if (!numero || !descricao || !tipo || !protocolo || secretarias.length === 0)
@@ -97,7 +97,7 @@ function adicionarProcesso() {
 
   db.ref('processos').push(novo);
   ['numero', 'descricao', 'tipo', 'protocolo'].forEach(id => document.getElementById(id).value = '');
-  selectSecretarias.selectedIndex = -1;
+  document.querySelectorAll('#formulario input[type=checkbox]').forEach(cb => cb.checked = false);
 }
 
 
@@ -127,12 +127,20 @@ function renderProcesso(id, proc) {
       <button class="btn btn-sm btn-secondary" onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">Etapa</button>
     ` : ''}
     ${proc.etapa === 'Recebimento de DFD' ? `
-      <button class="btn btn-sm btn-info mt-1" onclick="abrirModalDFD('${id}')">Receber DFDs</button>
+      <button class="btn btn-sm btn-secondary mt-1" onclick="abrirModalDFD('${id}')">Receber DFDs</button>
     ` : ''}
     ${proc.etapa === 'Recebimento de DFD' && proc.dfds ? (() => {
       const total = Object.keys(proc.dfds).length;
       const recebidos = Object.values(proc.dfds).filter(v => v).length;
-      return `<div><small><b>DFDs:</b> ${recebidos}/${total} recebidos</small></div>`;
+      const pendentes = Object.entries(proc.dfds)
+        .filter(([_, entregue]) => !entregue)
+        .map(([sec]) => sec)
+        .join(', ');
+
+      return `
+        <div><small><b>DFDs:</b> ${recebidos}/${total} recebidos</small></div>
+        ${pendentes ? `<div><small><b>Pendentes:</b> ${pendentes}</small></div>` : ''}
+      `;
     })() : ''}
   `;
   document.getElementById(proc.status).appendChild(card);
@@ -248,3 +256,69 @@ db.ref('processos').on('value', snap => {
   });
   filtrarProcessos();
 });
+
+function abrirModalDFD(id) {
+  processoDFDAtual = id;
+  const container = document.getElementById('dfdCheckboxes');
+  container.innerHTML = '';
+
+  db.ref('processos/' + id).once('value').then(snap => {
+    const dados = snap.val();
+    const dfds = dados.dfds || {};
+
+    (dados.secretarias || []).forEach(sec => {
+      const div = document.createElement('div');
+      div.className = 'form-check';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'form-check-input';
+      checkbox.id = 'chk_' + sec;
+      checkbox.checked = dfds[sec] || false;
+
+      const label = document.createElement('label');
+      label.className = 'form-check-label';
+      label.htmlFor = 'chk_' + sec;
+      label.textContent = sec;
+
+      div.appendChild(checkbox);
+      div.appendChild(label);
+      container.appendChild(div);
+    });
+
+    new bootstrap.Modal(document.getElementById('dfdModal')).show();
+  });
+}
+
+function salvarDFDs() {
+  if (!usuarioLogado) return alert("Você precisa estar logado para salvar.");
+  if (!processoDFDAtual) return;
+
+  db.ref('processos/' + processoDFDAtual).once('value').then(snap => {
+    const dados = snap.val();
+    const dfds = {};
+
+    (dados.secretarias || []).forEach(sec => {
+      const checked = document.getElementById('chk_' + sec)?.checked;
+      dfds[sec] = !!checked;
+    });
+
+    db.ref('processos/' + processoDFDAtual + '/dfds').set(dfds).then(() => {
+      bootstrap.Modal.getInstance(document.getElementById('dfdModal')).hide();
+      processoDFDAtual = null;
+    });
+  });
+}
+
+
+
+window.salvarEtapa = salvarEtapa;
+window.abrirModalEtapa = abrirModalEtapa;
+window.adicionarProcesso = adicionarProcesso;
+window.filtrarProcessos = filtrarProcessos;
+window.drop = drop;
+window.allowDrop = allowDrop;
+window.abrirModalDFD = abrirModalDFD;
+window.salvarDFDs = salvarDFDs;
+window.verLog = verLog;
+window.removerProcesso = removerProcesso;

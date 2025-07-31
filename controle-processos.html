@@ -57,77 +57,102 @@
   </header>
 
   <div id="formulario" class="container">
-    <div class="row g-2">
-      <div class="col-md"><input type="text" id="numero" placeholder="Número do Processo" class="form-control" /></div>
-      <div class="col-md"><input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" /></div>
-      <div class="col-md"><input type="text" id="tipo" placeholder="Tipo (Pregao, Dispensa...)" class="form-control" /></div>
-      <div class="col-md"><input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" /></div>
-      <div class="col-md">
-      <label for="secretarias" class="form-label">Secretarias Participantes</label>
-      <div style="height: 120px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Administração" id="secAdministração">
-          <label class="form-check-label" for="secAdministração">Administração</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Educação" id="secEducação">
-          <label class="form-check-label" for="secEducação">Educação</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Saúde" id="secSaúde">
-          <label class="form-check-label" for="secSaúde">Saúde</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Assistência Social" id="secAssistência">
-          <label class="form-check-label" for="secAssistência">Assistência Social</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Governo" id="secGoverno">
-          <label class="form-check-label" for="secGoverno">Governo</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Controladoria" id="secControladoria">
-          <label class="form-check-label" for="secControladoria">Controladoria</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Procuradoria" id="secProcuradoria">
-          <label class="form-check-label" for="secProcuradoria">Procuradoria</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Transportes" id="secTransportes">
-          <label class="form-check-label" for="secTransportes">Transportes</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Infraestrutura" id="secInfraestrutura">
-          <label class="form-check-label" for="secInfraestrutura">Infraestrutura</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Políticas do Campo" id="secCampo">
-          <label class="form-check-label" for="secCampo">Políticas do Campo</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Receita" id="secReceita">
-          <label class="form-check-label" for="secReceita">Receita</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Finanças" id="secFinanças">
-          <label class="form-check-label" for="secFinanças">Finanças</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="Planejamento" id="secPlanejamento">
-          <label class="form-check-label" for="secPlanejamento">Planejamento</label>
-        </div>
-      </div>
+  <div class="row g-3">
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="numero" placeholder="Número do Processo" class="form-control" />
     </div>
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" />
+    </div>
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="tipo" placeholder="Tipo (Pregão, Dispensa...)" class="form-control" />
+    </div>
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" />
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+      <button onclick="adicionarProcesso()" class="btn btn-primary w-100">Cadastrar</button>
+    </div>
+  </div>
 
-      <div class="col-md-auto"><button onclick="adicionarProcesso()" class="btn btn-primary w-100">Cadastrar</button></div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-md-4 offset-md-4">
-        <input type="text" id="filtro" oninput="filtrarProcessos()" placeholder="Filtrar por número, tipo ou descrição..." class="form-control">
+  <div class="row mt-3">
+    <div class="col-12">
+      <label for="secretarias" class="form-label">Secretarias Participantes</label>
+      <div style="height: 120px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+        <div class="row g-2">
+          <div class="col-6 col-md-4">
+            <!-- 1ª coluna -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Administração" id="secAdministração">
+              <label class="form-check-label" for="secAdministração">Administração</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Educação" id="secEducação">
+              <label class="form-check-label" for="secEducação">Educação</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Saúde" id="secSaúde">
+              <label class="form-check-label" for="secSaúde">Saúde</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Assistência Social" id="secAssistência">
+              <label class="form-check-label" for="secAssistência">Assistência Social</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Governo" id="secGoverno">
+              <label class="form-check-label" for="secGoverno">Governo</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <!-- 2ª coluna -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Controladoria" id="secControladoria">
+              <label class="form-check-label" for="secControladoria">Controladoria</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Procuradoria" id="secProcuradoria">
+              <label class="form-check-label" for="secProcuradoria">Procuradoria</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Transportes" id="secTransportes">
+              <label class="form-check-label" for="secTransportes">Transportes</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Infraestrutura" id="secInfraestrutura">
+              <label class="form-check-label" for="secInfraestrutura">Infraestrutura</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Políticas do Campo" id="secCampo">
+              <label class="form-check-label" for="secCampo">Políticas do Campo</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <!-- 3ª coluna -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Receita" id="secReceita">
+              <label class="form-check-label" for="secReceita">Receita</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Finanças" id="secFinanças">
+              <label class="form-check-label" for="secFinanças">Finanças</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Planejamento" id="secPlanejamento">
+              <label class="form-check-label" for="secPlanejamento">Planejamento</label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="row mt-3">
+    <div class="col-12 col-md-6 offset-md-3">
+      <input type="text" id="filtro" oninput="filtrarProcessos()" placeholder="Filtrar por número, tipo ou descrição..." class="form-control">
+    </div>
+  </div>
+</div>
+
 
   <div class="kanban-board">
     <div class="column" id="compra" ondrop="drop(event)" ondragover="allowDrop(event)">
