@@ -34,11 +34,11 @@ let processoSelecionado = null;
 const etapasPorTipoEStatus = {
   Pregão: {
     compra: ['Recebimento de DFD', 'Elaboração de TR', 'Pesquisa de Preços'],
-    licitacao: ['Elaboração do Edital', 'Publicação', 'Sessão Pública', 'Homologação']
+    licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicaçaõ do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
   },
   Dispensa: {
     compra: ['Recebimento de DFD', 'Cotação de Preços'],
-    licitacao: ['Justificativa da Dispensa', 'Ratificação']
+    licitacao: ['Publicado Avido de Contratação Direta', 'Enviado ao Setor de Compras para aguardar recebimento de propostas', 'Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
   },
   Inexigibilidade: {
     compra: ['Recebimento de DFD', 'Cotação Única'],
@@ -46,7 +46,7 @@ const etapasPorTipoEStatus = {
   },
   Adesão: {
     compra: ['Recebimento de DFD', 'Identificação da Ata'],
-    licitacao: ['Elaboração da Solicitação', 'Ratificação']
+    licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Envio de Memorandos de orientação para as Secretarias', 'Termo de Vantajosidade', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
   }
 };
 
