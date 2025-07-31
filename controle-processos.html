@@ -49,12 +49,52 @@
       .kanban-board { flex-direction: column; align-items: center; }
       .column { max-width: 95%; }
     }
+
+    header {
+      background-color: #06699b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header img {
+      min-width: 17%;
+      max-width: 17%;
+      margin-bottom: 5px;
+    }
+
+    .container-img {
+      position: relative;
+      display: inline-block;
+    }
+
+    .sombra {
+      position: absolute;
+      top: 0;
+      filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
+      z-index: 0;
+    }
+
+    .normal {
+      position: relative;
+      z-index: 1;
+      /* filter: drop-shadow(0 0 4px white) drop-shadow(0 0 8px white); */
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <h2>Acompanhamento de Processos Licitatórios</h2>
+    <div class="container-img">
+      <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
+      <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+    </div>
+    <h6 style="font-weight: 550; font-size: 15px; text-shadow: 0px 0px 10px #fffffffb;">
+      DEPARTAMENTO DE COMPRAS
+    </h6>
+    <h3>Acompanhamento de Processos Licitatórios</h3>
   </header>
+
 
   <div id="formulario" class="container">
   <div class="row g-3">
@@ -65,7 +105,14 @@
       <input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" />
     </div>
     <div class="col-12 col-md-6 col-lg">
-      <input type="text" id="tipo" placeholder="Tipo (Pregão, Dispensa...)" class="form-control" />
+      <select id="tipo" class="form-select">
+        <option value="">Selecione o Tipo</option>
+        <option value="Pregão">Pregão</option>
+        <option value="Dispensa">Dispensa</option>
+        <option value="Inexigibilidade">Inexigibilidade</option>
+        <option value="Adesão">Adesão</option>
+        <option value="Concorrência">Concorrência</option>
+      </select>
     </div>
     <div class="col-12 col-md-6 col-lg">
       <input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" />
@@ -166,52 +213,90 @@
     </div>
   </div>
 
-  <!-- Modal para mudar etapa -->
-  <div class="modal fade" id="etapaModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Atualizar Etapa</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <select id="etapaSelect" class="form-select"></select>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="salvarEtapa()">Salvar</button>
-        </div>
+<!-- Modal para Atualizar Etapa (Melhorado) -->
+<div class="modal fade" id="etapaModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">🔁 Atualizar Etapa</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="etapaSelect" class="form-label">Selecione a nova etapa:</label>
+        <select id="etapaSelect" class="form-select"></select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="salvarEtapa()">Salvar Alterações</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal DFD -->
-  <div class="modal fade" id="dfdModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Recebimento de DFDs</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
+<!-- Modal Recebimento de DFDs (Melhorado) -->
+<div class="modal fade" id="dfdModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">📩 Recebimento de DFDs</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-2">Marque as secretarias que já entregaram o DFD:</p>
+        <div id="dfdCheckboxes" class="row g-2">
+          <!-- checkboxes renderizados via JS -->
         </div>
-        <div class="modal-body">
-          <div id="dfdCheckboxes" class="form-check"></div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" onclick="salvarDFDs()">Salvar</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="salvarDFDs()">Salvar</button>
       </div>
     </div>
   </div>
+</div>
 
 
-  <!-- Modal de histórico -->
-  <div class="modal fade" id="logModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title">Histórico</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body"><pre id="logConteudo" style="white-space: pre-wrap;"></pre></div>
+  <!-- Modal de Histórico com Estilo Melhorado -->
+<div class="modal fade" id="logModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">📜 Histórico do Processo</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <pre id="logConteudo" style="white-space: pre-wrap; background-color: #f9f9f9; padding: 15px; border-radius: 5px; font-size: 14px; line-height: 1.5;"></pre>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal de Edição com Estilo Melhorado -->
+<div class="modal fade" id="modalEdicao" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">✏️ Editar Dados do Processo</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="editNumero" class="form-label">Número do Processo</label>
+          <input type="text" id="editNumero" class="form-control" placeholder="Ex: 2025/00123">
+        </div>
+        <div class="mb-2">
+          <label for="editProtocolo" class="form-label">Número do Protocolo</label>
+          <input type="text" id="editProtocolo" class="form-control" placeholder="Ex: 98765">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="salvarEdicao()">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>

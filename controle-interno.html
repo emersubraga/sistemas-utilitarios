@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/brasão.png" />
+    <title>Sistemas Utilitários</title>
+    <meta property="og:title" content="Sistemas Utilitários" />
+    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #7c7c7c;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            position: relative;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header img {
+            min-width: 17%;
+            max-width: 17%;
+            margin-bottom: 5px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #27681e;
+            color: rgb(255, 255, 255);
+            border: #27681e;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            min-width: 220px;
+        }
+
+        .btn:hover {
+            background-color: #3cad2d;
+            color: white;
+        }
+
+        .btn-outline-success {
+            color: #fff;
+            border-color: #3cad2d;
+            background-color: #27681e;
+            border: solid 2px #3cad2d;
+        }
+
+        footer {
+            background-color: transparent;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 0px;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .container-img {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sombra {
+            position: absolute;
+            top: 0;
+            filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
+            z-index: 0;
+        }
+
+        .normal {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="container-img">
+      <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
+      <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+    </div>
+    <h6 style="font-weight: 550; font-size: 15px; text-shadow: 0px 0px 10px #fffffffb;">
+      DEPARTAMENTO DE COMPRAS
+    </h6>
+  </header>
+
+  <main>
+    <div class="container">
+      <a href="login.html" class="btn btn-outline-success">Controle de Ordens</a>
+      <a href="login-processos.html" class="btn btn-outline-success">Acompanhamento de Processos Licitatórios</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 - Design e Código por Emerson Braga.</p>
+  </footer>
+</body>
+</html>
