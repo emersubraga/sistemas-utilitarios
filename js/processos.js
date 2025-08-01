@@ -12,7 +12,7 @@ const firebaseConfig = {
 const secretariasFixas = [
   "Administração", "Educação", "Saúde", "Assistência Social", "Governo",
   "Controladoria", "Procuradoria", "Transportes", "Infraestrutura",
-  "Políticas do Campo", "Receita", "Finanças", "Planejamento"
+  "Políticas do Campo", "Receita", "Finanças", "Planejamento", "Cultura"
 ];
 let processoDFDAtual = null;
 
