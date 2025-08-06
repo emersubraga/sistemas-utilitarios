@@ -65,6 +65,7 @@ const etapasPorTipoEStatus = {
     'Pesquisa de Preços – ETP',
     'Elaboração do TR',
     'Realização de Pesquisa Mercadológica (Fornecedores)',
+    'Solicitação de Documentação',
     'Envio do TR para publicação do Aviso de Contratação Direta',
     'Publicação do Aviso de Contratação Direta (prazo de 03 dias úteis a contar do dia posterior a publicação)',
     'Emissão de Certidão de Realização de Pesquisas de Preços',
