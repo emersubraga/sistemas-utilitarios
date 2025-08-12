@@ -81,7 +81,7 @@ const etapasPorTipoEStatus = {
     'Solicitação de Proposta de Preços',
     'Emissão de Certidão de Realização de Pesquisas de Preços'],
 
-    licitacao: ['Enviado ao Setor de Compras para aguardar recebimento de propostas', 'Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
+    licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
   },
   Adesão: {
     compra: ['Recebimento de DFDs',
