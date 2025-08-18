@@ -1,4 +1,4 @@
-Esse é meu script: const firebaseConfig = {
+const firebaseConfig = {
 apiKey: "AIzaSyA7CMtNAmd4AJiCyho5O0JZSSNFhP1iM_U",
 authDomain: "controle-ordens-e461e.firebaseapp.com",
 databaseURL: "https://controle-ordens-e461e-default-rtdb.firebaseio.com",
