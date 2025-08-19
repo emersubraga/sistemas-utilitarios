@@ -78,7 +78,9 @@
     .normal {
       position: relative;
       z-index: 1;
+      /* filter: drop-shadow(0 0 4px white) drop-shadow(0 0 8px white); */
     }
+
   </style>
 </head>
 <body>
@@ -93,113 +95,115 @@
     <h3>Acompanhamento de Processos Licitatórios</h3>
   </header>
 
-  <div id="formulario" class="container">
-    <div class="row g-3">
-      <div class="col-12 col-md-6 col-lg">
-        <input type="text" id="numero" placeholder="Número do Processo" class="form-control" />
-      </div>
-      <div class="col-12 col-md-6 col-lg">
-        <input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" />
-      </div>
-      <div class="col-12 col-md-6 col-lg">
-        <select id="tipo" class="form-select">
-          <option value="">Selecione o Tipo</option>
-          <option value="Pregão">Pregão</option>
-          <option value="Dispensa">Dispensa</option>
-          <option value="Inexigibilidade">Inexigibilidade</option>
-          <option value="Adesão">Adesão</option>
-          <option value="Concorrência">Concorrência</option>
-        </select>
-      </div>
-      <div class="col-12 col-md-6 col-lg">
-        <input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" />
-      </div>
-      <div class="col-12 col-md-4 col-lg-2">
-        <button onclick="adicionarProcesso()" class="btn btn-primary w-100">Cadastrar</button>
-      </div>
-    </div>
 
-    <div class="row mt-3">
-      <div class="col-12">
-        <label for="secretarias" class="form-label">Secretarias Participantes</label>
-        <div style="height: 120px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
-          <div class="row g-2">
-            <div class="col-6 col-md-4">
-              <!-- 1ª coluna -->
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Administração" id="secAdministração">
-                <label class="form-check-label" for="secAdministração">Administração</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Educação" id="secEducação">
-                <label class="form-check-label" for="secEducação">Educação</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Saúde" id="secSaúde">
-                <label class="form-check-label" for="secSaúde">Saúde</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Assistência Social" id="secAssistência">
-                <label class="form-check-label" for="secAssistência">Assistência Social</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Governo" id="secGoverno">
-                <label class="form-check-label" for="secGoverno">Governo</label>
-              </div>
+  <div id="formulario" class="container">
+  <div class="row g-3">
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="numero" placeholder="Número do Processo" class="form-control" />
+    </div>
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" />
+    </div>
+    <div class="col-12 col-md-6 col-lg">
+      <select id="tipo" class="form-select">
+        <option value="">Selecione o Tipo</option>
+        <option value="Pregão">Pregão</option>
+        <option value="Dispensa">Dispensa</option>
+        <option value="Inexigibilidade">Inexigibilidade</option>
+        <option value="Adesão">Adesão</option>
+        <option value="Concorrência">Concorrência</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6 col-lg">
+      <input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" />
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+      <button onclick="adicionarProcesso()" class="btn btn-primary w-100">Cadastrar</button>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-12">
+      <label for="secretarias" class="form-label">Secretarias Participantes</label>
+      <div style="height: 120px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+        <div class="row g-2">
+          <div class="col-6 col-md-4">
+            <!-- 1ª coluna -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Administração" id="secAdministração">
+              <label class="form-check-label" for="secAdministração">Administração</label>
             </div>
-            <div class="col-6 col-md-4">
-              <!-- 2ª coluna -->
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Controladoria" id="secControladoria">
-                <label class="form-check-label" for="secControladoria">Controladoria</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Procuradoria" id="secProcuradoria">
-                <label class="form-check-label" for="secProcuradoria">Procuradoria</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Transportes" id="secTransportes">
-                <label class="form-check-label" for="secTransportes">Transportes</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Infraestrutura" id="secInfraestrutura">
-                <label class="form-check-label" for="secInfraestrutura">Infraestrutura</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Políticas do Campo" id="secCampo">
-                <label class="form-check-label" for="secCampo">Políticas do Campo</label>
-              </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Educação" id="secEducação">
+              <label class="form-check-label" for="secEducação">Educação</label>
             </div>
-            <div class="col-6 col-md-4">
-              <!-- 3ª coluna -->
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Receita" id="secReceita">
-                <label class="form-check-label" for="secReceita">Receita</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Finanças" id="secFinanças">
-                <label class="form-check-label" for="secFinanças">Finanças</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Planejamento" id="secPlanejamento">
-                <label class="form-check-label" for="secPlanejamento">Planejamento</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="Cultura" id="secCultura">
-                <label class="form-check-label" for="secCultura">Cultura</label>
-              </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Saúde" id="secSaúde">
+              <label class="form-check-label" for="secSaúde">Saúde</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Assistência Social" id="secAssistência">
+              <label class="form-check-label" for="secAssistência">Assistência Social</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Governo" id="secGoverno">
+              <label class="form-check-label" for="secGoverno">Governo</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <!-- 2ª coluna -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Controladoria" id="secControladoria">
+              <label class="form-check-label" for="secControladoria">Controladoria</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Procuradoria" id="secProcuradoria">
+              <label class="form-check-label" for="secProcuradoria">Procuradoria</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Transportes" id="secTransportes">
+              <label class="form-check-label" for="secTransportes">Transportes</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Infraestrutura" id="secInfraestrutura">
+              <label class="form-check-label" for="secInfraestrutura">Infraestrutura</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Políticas do Campo" id="secCampo">
+              <label class="form-check-label" for="secCampo">Políticas do Campo</label>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <!-- 3ª coluna -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Receita" id="secReceita">
+              <label class="form-check-label" for="secReceita">Receita</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Finanças" id="secFinanças">
+              <label class="form-check-label" for="secFinanças">Finanças</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Planejamento" id="secPlanejamento">
+              <label class="form-check-label" for="secPlanejamento">Planejamento</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Cultura" id="secCultura">
+              <label class="form-check-label" for="secCultura">Cultura</label>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="row mt-3">
-      <div class="col-12 col-md-6 offset-md-3">
-        <input type="text" id="filtro" oninput="filtrarProcessos()" placeholder="Filtrar por número, tipo ou descrição..." class="form-control">
-      </div>
+  <div class="row mt-3">
+    <div class="col-12 col-md-6 offset-md-3">
+      <input type="text" id="filtro" oninput="filtrarProcessos()" placeholder="Filtrar por número, tipo ou descrição..." class="form-control">
     </div>
   </div>
+</div>
+
 
   <div class="kanban-board">
     <div class="column" id="compra" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -213,12 +217,106 @@
     </div>
   </div>
 
-  <!-- Modais (iguais ao arquivo original) -->
+<!-- Modal para Atualizar Etapa (Melhorado) -->
+<div class="modal fade" id="etapaModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">🔁 Atualizar Etapa</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="etapaSelect" class="form-label">Selecione a nova etapa:</label>
+        <select id="etapaSelect" class="form-select"></select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="salvarEtapa()">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal Recebimento de DFDs (Melhorado) -->
+<div class="modal fade" id="dfdModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">📩 Recebimento de DFDs</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-2">Marque as secretarias que já entregaram o DFD:</p>
+        <div id="dfdCheckboxes" class="row g-2">
+          <!-- checkboxes renderizados via JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" onclick="salvarDFDs()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Modal de Histórico com Estilo Melhorado -->
+<div class="modal fade" id="logModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">📜 Histórico do Processo</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <pre id="logConteudo" style="white-space: pre-wrap; background-color: #f9f9f9; padding: 15px; border-radius: 5px; font-size: 14px; line-height: 1.5;"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Edição com Estilo Melhorado -->
+<div class="modal fade" id="modalEdicao" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">✏️ Editar Dados do Processo</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="editNumero" class="form-label">Número do Processo</label>
+          <input type="text" id="editNumero" class="form-control" placeholder="Ex: 2025/00123">
+        </div>
+        <div class="mb-2">
+          <label for="editProtocolo" class="form-label">Número do Protocolo</label>
+          <input type="text" id="editProtocolo" class="form-control" placeholder="Ex: 98765">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" onclick="salvarEdicao()">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="js/processos.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/processos.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      const logado = !!user;
+
+      // Oculta o formulário de cadastro se não estiver logado
+      document.getElementById('formulario').style.display = logado ? 'block' : 'none';
+
+      // Salva o estado de login global
+      window.usuarioLogado = logado;
+    });
+    
+  </script
 </body>
 </html>
