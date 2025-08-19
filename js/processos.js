@@ -9,6 +9,23 @@ appId: "1:843214621145:web:4d0f5748172b7ba242f1c8",
 measurementId: "G-S88RXTLRRL"
 };
 
+
+firebase.initializeApp(firebaseConfig);
+
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+
+let usuarioLogado = false;
+
+
+auth.onAuthStateChanged(user => {
+usuarioLogado = !!user;
+document.getElementById('formulario').style.display = usuarioLogado ? 'block' : 'none';
+});
+
+
 const secretariasFixas = [
 "Administração", "Educação", "Saúde", "Assistência Social", "Governo",
 "Controladoria", "Procuradoria", "Transportes", "Infraestrutura",
@@ -16,16 +33,6 @@ const secretariasFixas = [
 ];
 let processoDFDAtual = null;
 
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-let usuarioLogado = false;
-
-auth.onAuthStateChanged(user => {
-usuarioLogado = !!user;
-});
-
-const db = firebase.database();
 
 let processosCache = [];
 let processoSelecionado = null;
@@ -128,19 +135,22 @@ default: return '#ccc';
 function adicionarProcesso() {
 if (!usuarioLogado) return alert("Você precisa estar logado para adicionar.");
 
+
 const numero = document.getElementById('numero').value.trim();
 const descricao = document.getElementById('descricao').value.trim();
 const tipo = document.getElementById('tipo').value.trim();
 const protocolo = document.getElementById('protocolo').value.trim();
-const secretarias = Array.from(document.querySelectorAll('#formulario input[type=checkbox]:checked'))
-.map(cb => cb.value);
+const secretarias = Array.from(document.querySelectorAll('#formulario input[type=checkbox]:checked')).map(cb => cb.value);
+
 
 if (!descricao || !tipo || secretarias.length === 0)
 return alert("Preencha todos os campos e selecione pelo menos uma secretaria.");
 
+
 const etapaInicial = getEtapasPorTipo(tipo, 'compra')[0] || 'Início';
 const dfds = {};
 secretarias.forEach(sec => dfds[sec] = false);
+
 
 const novo = {
 numero, descricao, tipo, protocolo,
@@ -148,8 +158,9 @@ status: "compra",
 etapa: etapaInicial,
 secretarias,
 dfds,
-log: [${new Date().toLocaleString()} - ${etapaInicial}]
+log: [`${new Date().toLocaleString()} - ${etapaInicial}`]
 };
+
 
 db.ref('processos').push(novo);
 ['numero', 'descricao', 'tipo', 'protocolo'].forEach(id => document.getElementById(id).value = '');
@@ -284,10 +295,11 @@ if (!usuarioLogado) return alert("Você precisa estar logado para alterar a etap
 const novaEtapa = document.getElementById('etapaSelect').value;
 if (!processoSelecionado || !novaEtapa) return;
 
+
 db.ref('processos/' + processoSelecionado).once('value').then(snap => {
 const proc = snap.val();
 const log = proc.log || [];
-log.push(${new Date().toLocaleString()} - Etapa alterada para '${novaEtapa}');
+log.push(`${new Date().toLocaleString()} - Etapa alterada para '${novaEtapa}'`);
 db.ref('processos/' + processoSelecionado).update({
 etapa: novaEtapa,
 log
