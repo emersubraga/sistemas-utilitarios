@@ -172,6 +172,7 @@ const filtro = document.getElementById('filtro').value.toLowerCase();
 const texto = (proc.numero + proc.descricao + proc.tipo).toLowerCase();
 if (filtro && !texto.includes(filtro)) return;
 
+
 const card = document.createElement('div');
 card.className = 'card';
 card.style.backgroundColor = getCardColor(proc.status);
@@ -180,11 +181,18 @@ card.dataset.id = id;
 card.ondragstart = e => e.dataTransfer.setData('id', id);
 const ultimaAcao = proc.log?.slice(-1)[0] || '';
 
-card.innerHTML =   <button class="remove-btn" onclick="removerProcesso('${id}')">×</button>   <strong>#${proc.numero}</strong><br>   <em>${proc.tipo}</em><br>   ${proc.descricao}<br>   <div><small><b>Protocolo:</b> ${proc.protocolo}</small></div>   <div><small><b>Etapa:</b> ${proc.etapa || ''}</small></div>   <div class="log"><small>📅 ${ultimaAcao.split(' - ')[0]}</small></div>   <button class="btn btn-sm btn-link" onclick="verLog('${id}')">Histórico</button>   ${proc.status !== 'finalizado' ?
-<button class="btn btn-sm btn-primary" onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">Etapa</button>
-: ''}   ${proc.etapa === 'Recebimento de DFDs' ?
-<button class="btn btn-sm btn-primary mt-1" onclick="abrirModalDFD('${id}')">Receber DFDs</button>
-` : ''}
+
+card.innerHTML = `
+<button class="remove-btn" onclick="removerProcesso('${id}')">×</button>
+<strong>#${proc.numero}</strong><br>
+<em>${proc.tipo}</em><br>
+${proc.descricao}<br>
+<div><small><b>Protocolo:</b> ${proc.protocolo}</small></div>
+<div><small><b>Etapa:</b> ${proc.etapa || ''}</small></div>
+<div class="log"><small>📅 ${ultimaAcao.split(' - ')[0]}</small></div>
+<button class="btn btn-sm btn-link" onclick="verLog('${id}')">Histórico</button>
+${proc.status !== 'finalizado' ? `<button class="btn btn-sm btn-primary" onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">Etapa</button>` : ''}
+${proc.etapa === 'Recebimento de DFDs' ? `<button class="btn btn-sm btn-primary mt-1" onclick="abrirModalDFD('${id}')">Receber DFDs</button>` : ''}
 ${proc.etapa === 'Recebimento de DFDs' && proc.dfds ? (() => {
 const total = Object.keys(proc.dfds).length;
 const recebidos = Object.values(proc.dfds).filter(v => v).length;
@@ -192,24 +200,22 @@ const pendentes = Object.entries(proc.dfds)
 .filter(([_, entregue]) => !entregue)
 .map(([sec]) => sec)
 .join(', ');
-
-return `  
-    <div><small><b>DFDs:</b> ${recebidos}/${total} recebidos</small></div>  
-    ${pendentes ? `<div><small><b>Pendentes:</b> ${pendentes}</small></div>` : ''}  
-  `;  
-})() : ''}  
-${usuarioLogado ? `  
-  <button class="btn btn-sm btn-primary mt-1" onclick="abrirModalEdicao('${id}', '${proc.numero || ''}', '${proc.protocolo || ''}')">Editar Dados</button>  
-` : ''}
-
+return `
+<div><small><b>DFDs:</b> ${recebidos}/${total} recebidos</small></div>
+${pendentes ? `<div><small><b>Pendentes:</b> ${pendentes}</small></div>` : ''}
 `;
+})() : ''}
+${usuarioLogado ? `<button class="btn btn-sm btn-primary mt-1" onclick="abrirModalEdicao('${id}', '${proc.numero || ''}', '${proc.protocolo || ''}')">Editar Dados</button>` : ''}
+`;
+
+
 document.getElementById(proc.status).appendChild(card);
 }
 
 function limparColunas() {
 ['compra', 'licitacao', 'finalizado'].forEach(id => {
 const col = document.getElementById(id);
-col.innerHTML = <h3>${col.querySelector("h3").innerText}</h3>;
+col.innerHTML = `<h3>${col.querySelector("h3").innerText}</h3>`;
 });
 }
 
