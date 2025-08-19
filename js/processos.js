@@ -8,17 +8,17 @@ const secretariasFixas = [
 let processoDFDAtual = null;
 
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+// }
 
 
-const auth = firebase.auth();
-let usuarioLogado = false;
+// const auth = firebase.auth();
+// let usuarioLogado = false;
 
-auth.onAuthStateChanged(user => {
-  usuarioLogado = !!user;
-});
+// auth.onAuthStateChanged(user => {
+//   usuarioLogado = !!user;
+// });
 
 const db = firebase.database();
 
