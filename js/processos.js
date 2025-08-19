@@ -1,13 +1,4 @@
-// const firebaseConfig = {
-//   apiKey: "AIzaSyA7CMtNAmd4AJiCyho5O0JZSSNFhP1iM_U",
-//   authDomain: "controle-ordens-e461e.firebaseapp.com",
-//   databaseURL: "https://controle-ordens-e461e-default-rtdb.firebaseio.com",
-//   projectId: "controle-ordens-e461e",
-//   storageBucket: "controle-ordens-e461e.firebasestorage.app",
-//   messagingSenderId: "843214621145",
-//   appId: "1:843214621145:web:4d0f5748172b7ba242f1c8",
-//   measurementId: "G-S88RXTLRRL"
-// };
+
 
 const secretariasFixas = [
   "Administração", "Educação", "Saúde", "Assistência Social", "Governo",
