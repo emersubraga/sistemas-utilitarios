@@ -1,14 +1,54 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel de Processos</title>
+  <link rel="icon" href="img/brasão.png" />
+  <meta property="og:title" content="Sistemas Utilitários" />
+  <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+  <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <style>
-    body { background: #f4f4f4; font-family: Arial, sans-serif; margin: 0; }
-    header { background: #003366; color: white; text-align: center; padding: 10px; }
-    #formulario { padding: 15px; text-align: center; background: #fff; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0072CE, #29ABE2);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 1200px;
+      width: 95%;
+      margin: 30px auto;
+    }
+
+    .logo {
+      margin-bottom: 15px;
+    }
+
+    h1 { 
+      font-size: 1.6rem;
+      margin-bottom: 5px;
+      color: #F36A21;
+    } 
+
+    h2 { 
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 30px;
+      color: #002b5c;
+    }
+
+    /* Kanban */
     .kanban-board {
       display: flex;
       justify-content: space-around;
@@ -19,84 +59,74 @@
     .column {
       flex: 1 1 300px;
       max-width: 33%;
-      border-radius: 8px;
+      border-radius: 12px;
       padding: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       min-width: 280px;
-      background: #fff;
+      background: #f9f9f9;
     }
-    .column h3 { text-align: center; }
+    .column h3 {
+      text-align: center;
+      color: #0072CE;
+    }
     .card {
       padding: 10px;
       margin: 10px 0;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: grab;
       position: relative;
-      color: #000;
+      background: #fff;
+      border: 1px solid #ddd;
+
+      /* transição suave para o movimento */
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .log { font-size: 12px; color: #555; margin-top: 5px; }
+
+    /* efeito ao passar o mouse */
+    .card:hover {
+      transform: translateY(-4px); /* levanta o card */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
     .remove-btn {
       position: absolute;
-      top: 5px;
+      top: 6px;
       right: 8px;
       background: transparent;
       border: none;
       font-size: 18px;
       cursor: pointer;
-      color: red;
-    }
-    @media (max-width: 768px) {
-      .kanban-board { flex-direction: column; align-items: center; }
-      .column { max-width: 95%; }
+      color: #e74c3c;   /* vermelho */
+
+      /* transição para suavizar */
+      transition: transform 0.15s ease, color 0.15s ease;
     }
 
-    header {
-      background-color: #06699b;
-      color: white;
-      padding: 20px;
+    .remove-btn:hover {
+      transform: scale(1.2);
+      color: #c0392b;   /* vermelho mais escuro ao passar o mouse */
+    }
+
+
+    footer {
       text-align: center;
+      padding: 15px;
+      font-size: 0.8rem;
+      color: #777;
     }
-
-    header img {
-      min-width: 17%;
-      max-width: 17%;
-      margin-bottom: 5px;
-    }
-
-    .container-img {
-      position: relative;
-      display: inline-block;
-    }
-
-    .sombra {
-      position: absolute;
-      top: 0;
-      filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
-      z-index: 0;
-    }
-
-    .normal {
-      position: relative;
-      z-index: 1;
-      /* filter: drop-shadow(0 0 4px white) drop-shadow(0 0 8px white); */
-    }
-
   </style>
 </head>
 <body>
-  <header>
-    <div class="container-img">
-      <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
-      <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+  <div class="container-box">
+    <div class="text-center">
+      <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
+      <h1>Prefeitura de Caraúbas</h1>
+      <h2>Departamento de Compras</h2>
+      <h3 style="color:#0072CE; margin-top:10px;">Acompanhamento de Processos Licitatórios</h3>
     </div>
-    <h6 style="font-weight: 550; font-size: 15px; text-shadow: 0px 0px 10px #fffffffb;">
-      DEPARTAMENTO DE COMPRAS
-    </h6>
-    <h3>Acompanhamento de Processos Licitatórios</h3>
-  </header>
 
-
-  <div id="formulario" class="container">
+    <!-- Formulário -->
+    <div id="formulario" class="container">
   <div class="row g-3">
     <div class="col-12 col-md-6 col-lg">
       <input type="text" id="numero" placeholder="Número do Processo" class="form-control" />
@@ -301,23 +331,39 @@
   </div>
 </div>
 
+    <footer>
+      © 2025 - Design e Código por Emerson Braga.
+    </footer>
+  </div>
 
+  <!-- Scripts Firebase + Bootstrap -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged(user => {
-      const logado = !!user;
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 
-      // Oculta o formulário de cadastro se não estiver logado
-      document.getElementById('formulario').style.display = logado ? 'block' : 'none';
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7CMtNAmd4AJiCyho5O0JZSSNFhP1iM_U",
+    authDomain: "controle-ordens-e461e.firebaseapp.com",
+    databaseURL: "https://controle-ordens-e461e-default-rtdb.firebaseio.com",
+    projectId: "controle-ordens-e461e",
+    storageBucket: "controle-ordens-e461e.firebasestorage.app",
+    messagingSenderId: "843214621145",
+    appId: "1:843214621145:web:4d0f5748172b7ba242f1c8",
+    measurementId: "G-S88RXTLRRL"
+  };
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
 
-      // Salva o estado de login global
-      window.usuarioLogado = logado;
-    });
-    
-  </script>
-  <script src="js/processos.js"></script>
+  firebase.auth().onAuthStateChanged(user => {
+    const logado = !!user;
+    document.getElementById('formulario').style.display = logado ? 'block' : 'none';
+    window.usuarioLogado = logado;
+  });
+</script>
+<script src="js/processos.js"></script>
 </body>
 </html>
+

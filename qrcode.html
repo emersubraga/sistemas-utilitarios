@@ -1,177 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/brasão.png">
-    <title>Gerador de QR Code</title>
-    <meta property="og:title" content="Sistemas Utilitários" />
-    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
-    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/brasão.png">
+  <title>Gerador de QR Code</title>
+  <meta property="og:title" content="Sistemas Utilitários" />
+  <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+  <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #7c7c7c;
-        }
+  <style>
+    :root { --primary:#0072CE; --secondary:#29ABE2; --accent:#F36A21; --ink:#002b5c; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      min-height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .container {
+      background:#fff; padding:40px; border-radius:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,.15);
+      max-width: 500px; width: 95%; text-align: center;
+      margin-top: 20px; margin-bottom: 20px;
+    }
+    .logo { margin-bottom:-8px; }
+    h1 { font-size:1.6rem; margin-bottom:-20px; color:var(--accent); }
+    h2 { font-size:1rem; font-weight:400; margin-bottom:24px; color:var(--ink); }
+    h3 { margin: 8px 0 18px; color: var(--primary); }
 
-        header {
-            position: relative;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+    .input-row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    input {
+      flex: 1 1 320px;
+      padding:12px; border-radius:10px; border:1px solid #ccc; font-size:1rem;
+    }
+    .btn {
+      margin-top: 12px; padding: 12px; width: 100%;
+      border-radius: 12px; border: none; color:#fff; background: var(--primary);
+      font-weight: 600; cursor: pointer; transition:.2s;
+    }
+    .btn:hover { background: #005fa8; }
 
-        header img {
-            min-width: 17%;
-            max-width: 17%;
-            margin-bottom: 5px;
-        }
+    #qrcode-container { display:none; margin-top:18px; }
+    #qrcode {
+      display:inline-block; padding:10px; background:#fff; border-radius:12px;
+      border: 1px solid #e5e5e5; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
 
-        main {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .coluna{
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card {
-            width: 100%;
-            max-width: 500px;
-            background-color: #040404;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px #fffffff6;
-            color: white;
-        }
-
-        .input-row {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-        }
-
-        input, select, textarea {
-            font-size: 1rem;
-            padding: 5px;
-            margin-left: 5px;
-            margin-right: 5px;
-            width: 100%;
-            border-radius: 5px;
-            border: 2px solid #7a7a7a56;
-            background: #fff;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            margin-top: 15px;
-            padding: 10px;
-            font-size: 1rem;
-            width: 100%;
-            background-color: #27681e;
-            color: rgb(255, 255, 255);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: #3cad2d;
-            color: white;
-        }
-
-        footer {
-            background-color: transparent;
-            color: #ffffff;
-            padding: 15px;
-            text-align: center;
-        }
-
-        footer p {
-            margin-bottom: 0px;
-            font-size: 13px;
-            font-style: italic;
-        }
-
-        .container-img {
-            position: relative;
-            display: inline-block;
-        }
-
-        .sombra {
-            position: absolute;
-            top: 0;
-            filter: blur(10px) drop-shadow(0px 0px 10px #ffffff69);
-            z-index: 0;
-        }
-
-        .normal {
-            position: relative;
-            z-index: 1;
-        }
-
-        #qrcode-container {
-            display: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-        #qrcode {
-            display: inline-block;
-            padding: 5px;
-            background: rgb(0, 0, 0);
-        }
-
-    </style>
+    footer { margin-top:18px; font-size:.8rem; color:#777; }
+  </style>
 </head>
-<body class="text-center">
-    <header class="text-center">
-        <div class="container-img">
-            <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
-            <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
-        </div>
-        
-        <h6 style="font-weight: 550; font-size: 15px;text-shadow: 0px 0px 10px #fffffffb;">DEPARTAMENTO DE COMPRAS</h6>
-    </header>
-    <main>
-        <div class="coluna">
-            <div id="input-container" style="margin-top: 100px;">
-                <div class="card">
-                    <h3>Gerador de QRcodes</h3>
-                    <input type="text" name="link" id="link" placeholder="Link..." required>
-                    <button class="btn" id="generateQRCode" onclick="generateQRCode()">Gerar QR Code</button>
-                </div>
-            </div>
-            <div id="qrcode-container" >
-                <div class="card">
-                    <h4 style="color: #f9f9f9; text-align:center;">Aqui está o seu QRcode!</h4>
-                    <div id="qrcode"></div>
-                    <button class="btn" id="downloadBtn" style="display: none;" onclick="downloadQRCode()">Baixar</button>
-                </div>
-            </div>
-        </div>
-        
+<body>
+  <div class="container">
+    <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
+    <h1>Prefeitura de Caraúbas</h1>
+    <h2>Departamento de Compras</h2>
 
-    </main>
+    <h3>Gerador de QR Codes</h3>
+    <div class="input-row">
+      <input type="text" name="link" id="link" placeholder="Cole aqui o link..." required>
+    </div>
+    <button class="btn" id="generateQRCode" onclick="generateQRCode()">Gerar QR Code</button>
 
-    <footer>
-        <p> &copy; 2025 - Design e Código por Emerson Braga.</p>     
-    </footer>
-    
-    <script src="js/qrcode.js"></script>
+    <div id="qrcode-container">
+      <h4 style="color:#0072CE;margin:16px 0 10px;">Aqui está o seu QR Code</h4>
+      <div id="qrcode"></div>
+      <button class="btn" id="downloadBtn" style="display:none;" onclick="downloadQRCode()">Baixar</button>
+    </div>
 
+    <footer>© 2025 - Design e Código por Emerson Braga.</footer>
+  </div>
+
+  <!-- Script da sua lógica (mantido) -->
+  <script src="js/qrcode.js"></script>
 </body>
 </html>

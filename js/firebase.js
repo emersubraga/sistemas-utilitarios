@@ -55,7 +55,7 @@ function renderOrdem(id, ordem) {
   card.ondragstart = drag;
 
   card.innerHTML = `
-    <button class="remove-btn" onclick="removerOrdem('${id}')">×</button>
+    <button class="close-btn" onclick="removerOrdem('${id}')">×</button>
     <strong>#${ordem.numero}</strong><br>
     ${ordem.fornecedor}<br>
     <em>${ordem.secretaria}</em><br>

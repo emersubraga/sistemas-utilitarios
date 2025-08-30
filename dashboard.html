@@ -4,47 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="img/brasão.png" />
-  <title>Sistemas Utilitários</title>
-  <meta property="og:title" content="Sistemas Utilitários" />
-  <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
-  <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <title>Controle de Ordens</title>
   <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 </head>
 <body>
-  <header>
-    <div class="container-img">
-      <img src="img/BRASÃO HORIZONTAL.png" class="sombra" alt="Brasão Prefeitura" loading="eager">
-      <img src="img/BRASÃO HORIZONTAL.png" class="normal" alt="Brasão Prefeitura" loading="eager">
+  <div class="container-box">
+    <div class="text-center">
+      <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
+      <h1>Prefeitura de Caraúbas</h1>
+      <h2>Departamento de Compras</h2>
+      <h3>Controle de Ordens</h3>
     </div>
-    <h6 style="font-weight: 550; font-size: 15px; text-shadow: 0px 0px 10px #fffffffb;">
-      DEPARTAMENTO DE COMPRAS
-    </h6>
-    <h1>Controle de Ordens</h1>
-  </header>
 
-  <div id="formulario">
-    <input type="text" id="numero" name="numero" placeholder="Número da Ordem" autocomplete="on">
-    <input type="text" id="fornecedor" name="fornecedor" placeholder="Nome do Fornecedor" autocomplete="on">
-    <input type="text" id="secretaria" name="secretaria" placeholder="Sigla da Secretaria" autocomplete="on">
-    <button onclick="criarOrdem()">Adicionar Ordem</button>
+    <div id="formulario">
+      <input type="text" id="numero" name="numero" placeholder="Número da Ordem" autocomplete="on">
+      <input type="text" id="fornecedor" name="fornecedor" placeholder="Nome do Fornecedor" autocomplete="on">
+      <input type="text" id="secretaria" name="secretaria" placeholder="Sigla da Secretaria" autocomplete="on">
+      <button onclick="criarOrdem()">Adicionar Ordem</button>
+    </div>
+
+    <div class="kanban-board">
+      <div class="column" id="aguardando" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h3>Aguardando Empenho</h3>
+      </div>
+      <div class="column" id="empenhada" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h3>Empenhada</h3>
+      </div>
+      <div class="column" id="enviada" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h3>Enviada ao Fornecedor</h3>
+      </div>
+    </div>
+
+    <footer>© 2025 - Design e Código por Emerson Braga.</footer>
   </div>
 
-  <div class="kanban-board">
-    <div class="column" id="aguardando" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3>Aguardando Empenho</h3>
-    </div>
-    <div class="column" id="empenhada" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3>Empenhada</h3>
-    </div>
-    <div class="column" id="enviada" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3>Enviada ao Fornecedor</h3>
-    </div>
-  </div>
-
+  <!-- Firebase + App JS (mantidos) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="js/firebase.js"></script>
 </body>
 </html>
+
