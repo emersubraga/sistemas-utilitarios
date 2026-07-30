@@ -3,7 +3,8 @@
 const secretariasFixas = [
   "Administração", "Educação", "Saúde", "Assistência Social", "Governo",
   "Controladoria", "Procuradoria", "Transportes", "Infraestrutura",
-  "Políticas do Campo", "Receita", "Finanças", "Planejamento", "Cultura"
+  "Políticas do Campo", "Receita", "Finanças", "Planejamento", "Cultura",
+  "Secretaria da Mulher", "Fundo de Assistência Social"
 ];
 let processoDFDAtual = null;
 
@@ -27,7 +28,7 @@ let processoSelecionado = null;
 
 const etapasPorTipoEStatus = {
 Pregão: {
-compra: ['Recebimento de DFDs',
+compra: ['Recebimento de Solicitações',
 'Cadastro de Solicitações de Despesas (TopDown)',
 'Pesquisa de Preços (Consolidação)',
 'Elaboração do ETP',
@@ -41,12 +42,12 @@ compra: ['Recebimento de DFDs',
 'Emissão de Certidão de Realização de Pesquisas de Preços',
 'Elaboração de Relatório Geral de Cotação'],
 
-licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicaçaõ do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
+licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicação do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
 
 },
 
 Concorrência: {
-compra: ['Recebimento de DFDs',
+compra: ['Recebimento de Solicitações',
 'Cadastro de Solicitações de Despesas (TopDown)'],
 
 licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicaçaõ do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
@@ -54,7 +55,7 @@ licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramen
 },
 
 Dispensa: {
-compra: ['Recebimento de DFDs',
+compra: ['Recebimento de Solicitações',
 'Cadastro de Solicitações de Despesas (TopDown)',
 'Pesquisa de Preços (Consolidação)',
 'Elaboração do ETP',
@@ -82,7 +83,7 @@ licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despa
 
 },
 Adesão: {
-compra: ['Recebimento de DFDs',
+compra: ['Recebimento de Solicitações',
 'Cadastro de Solicitações de Despesas (TopDown)',
 'Pesquisa de Preços (Consolidação)',
 'Elaboração do ETP',
@@ -177,10 +178,10 @@ function renderProcesso(id, proc) {
     ${proc.status !== 'finalizado' ? `
       <button class="btn btn-sm btn-primary" onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">Etapa</button>
     ` : ''}
-    ${proc.etapa === 'Recebimento de DFDs' ? `
-      <button class="btn btn-sm btn-primary mt-1" onclick="abrirModalDFD('${id}')">Receber DFDs</button>
+    ${proc.etapa === 'Recebimento de Solicitações' ? `
+      <button class="btn btn-sm btn-primary mt-1" onclick="abrirModalDFD('${id}')">Receber Solicitações</button>
     ` : ''}
-    ${proc.etapa === 'Recebimento de DFDs' && proc.dfds ? (() => {
+    ${proc.etapa === 'Recebimento de Solicitações' && proc.dfds ? (() => {
       const total = Object.keys(proc.dfds).length;
       const recebidos = Object.values(proc.dfds).filter(v => v).length;
       const pendentes = Object.entries(proc.dfds)
