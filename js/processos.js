@@ -42,7 +42,28 @@ compra: ['Recebimento de Solicitações',
 'Emissão de Certidão de Realização de Pesquisas de Preços',
 'Elaboração de Relatório Geral de Cotação'],
 
-licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicação do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
+licitacao: [
+  'Conferência de Documentação', 
+  'Despachos - Edital', 
+  'Cadastramento no Compras.gov', 
+  'Envio ao jurídico', 
+  'Elaboração do Edital', 
+  'Acolhimento de Pareceres', 
+  'Cadastramento no TopDown', 
+  'Sessão Marcada/Publicação do Edital', 
+  'Publicação do Aviso', 
+  'Aguardando sessão...', 
+  'Disputa', 
+  'Negociação', 
+  'Solicitação de Proposta', 
+  'Habilitação', 
+  'Envio ao jurídico', 
+  'Homologação', 
+  'Contratos',
+  'Em prazo de recursos',
+  'Aguardando parecer contábil',
+  'Prazo de amostras',
+  'Aguardando parecer da Engenharia'],
 
 },
 
@@ -50,7 +71,26 @@ Concorrência: {
 compra: ['Recebimento de Solicitações',
 'Cadastro de Solicitações de Despesas (TopDown)'],
 
-licitacao: ['Conferência de Documentação', 'Despachos - Edital', 'Cadastramento no Compras.gov', 'Envio ao jurídico', 'Elaboração do Edital', 'Acolhimento de Pareceres', 'Cadastramento no TopDown', 'Sessão Marcada/Publicação do Edital', 'Publicaçaõ do Aviso', 'Aguardando sessão...', 'Disputa', 'Negociação', 'Solicitação de Proposta', 'Habilitação', 'Envio ao jurídico', 'Homologação', 'Contratos']
+licitacao: ['Conferência de Documentação', 
+  'Despachos - Edital', 
+  'Cadastramento no Compras.gov', 
+  'Envio ao jurídico', 
+  'Elaboração do Edital', 
+  'Acolhimento de Pareceres', 
+  'Cadastramento no TopDown', 
+  'Sessão Marcada/Publicação do Edital', 
+  'Publicaçaõ do Aviso', 
+  'Aguardando sessão...', 
+  'Disputa', 'Negociação', 
+  'Solicitação de Proposta', 
+  'Habilitação', 
+  'Envio ao jurídico', 
+  'Homologação', 
+  'Contratos',
+  'Em prazo de recursos',
+  'Aguardando parecer contábil',
+  'Prazo de amostras',
+  'Aguardando parecer da Engenharia']
 
 },
 
@@ -79,7 +119,22 @@ compra: ['Recebimento de DFD',
 'Solicitação de Proposta de Preços',
 'Emissão de Certidão de Realização de Pesquisas de Preços'],
 
-licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
+licitacao: ['Despacho AD/TR', 
+  'Despacho de solicitação Orçamentária', 
+  'Despacho de informações Orçamentária', 
+  'Declaração de adequação Orçamentária', 
+  'Despacho de Autorização', 
+  'Termo de Atuação', 
+  'Minutas', 
+  'Envio do jurídico', 
+  'Acolhimento de Pareceres', 
+  'Termo de Autorizativo', 
+  'Termo de Contrato', 
+  'Publicação',
+  'Em prazo de recursos',
+  'Aguardando parecer contábil',
+  'Prazo de amostras',
+  'Aguardando parecer da Engenharia']
 
 },
 Adesão: {
@@ -97,7 +152,24 @@ compra: ['Recebimento de Solicitações',
 'Emissão de Certidão de Realização de Pesquisas de Preços',
 'Elaboração de Relatório Geral de Cotação'],
 
-licitacao: ['Despacho AD/TR', 'Despacho de solicitação Orçamentária', 'Despacho de informações Orçamentária', 'Declaração de adequação Orçamentária', 'Envio de Memorandos de orientação para as Secretarias', 'Termo de Vantajosidade', 'Despacho de Autorização', 'Termo de Atuação', 'Minutas', 'Envio do jurídico', 'Acolhimento de Pareceres', 'Termo de Autorizativo', 'Termo de Contrato', 'Publicação']
+licitacao: ['Despacho AD/TR', 
+  'Despacho de solicitação Orçamentária', 
+  'Despacho de informações Orçamentária', 
+  'Declaração de adequação Orçamentária', 
+  'Envio de Memorandos de orientação para as Secretarias', 
+  'Termo de Vantajosidade', 
+  'Despacho de Autorização', 
+  'Termo de Atuação', 
+  'Minutas', 
+  'Envio do jurídico', 
+  'Acolhimento de Pareceres', 
+  'Termo de Autorizativo', 
+  'Termo de Contrato', 
+  'Publicação',
+  'Em prazo de recursos',
+  'Aguardando parecer contábil',
+  'Prazo de amostras',
+  'Aguardando parecer da Engenharia']
 
 }
 };
@@ -190,7 +262,7 @@ function renderProcesso(id, proc) {
         .join(', ');
 
       return `
-        <div><small><b>DFDs:</b> ${recebidos}/${total} recebidos</small></div>
+        <div><small><b>Solicitações:</b> ${recebidos}/${total} recebidos</small></div>
         ${pendentes ? `<div><small><b>Pendentes:</b> ${pendentes}</small></div>` : ''}
       `;
     })() : ''}
