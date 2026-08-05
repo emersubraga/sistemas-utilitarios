@@ -283,6 +283,28 @@
       <div class="modal-body">
         <label for="etapaSelect" class="form-label">Selecione a nova etapa:</label>
         <select id="etapaSelect" class="form-select"></select>
+        <hr>
+        <div id="campoPrazo" style="display:none">
+            <label class="form-label">
+                Prazo para entrega das solicitações
+            </label>
+
+            <input
+                type="date"
+                id="prazoEntrega"
+                class="form-control">
+        </div>
+
+        <div id="campoSessao" style="display:none">
+            <label class="form-label">
+                Data da Sessão
+            </label>
+
+            <input
+                type="datetime-local"
+                id="dataSessao"
+                class="form-control">
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

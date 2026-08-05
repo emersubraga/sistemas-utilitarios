@@ -211,14 +211,20 @@ function adicionarProcesso() {
   secretarias.forEach(sec => dfds[sec] = false);
 
   const novo = {
-    numero, descricao, tipo, protocolo,
+    numero,
+    descricao,
+    tipo,
+    protocolo,
     status: "compra",
     etapa: etapaInicial,
     secretarias,
     dfds,
-    log: [`${new Date().toLocaleString()} - ${etapaInicial}`]
-  };
 
+    prazoEntrega: "",
+    dataSessao: "",
+
+    log: [`${new Date().toLocaleString()} - ${etapaInicial}`]
+};
   db.ref('processos').push(novo);
   ['numero', 'descricao', 'tipo', 'protocolo'].forEach(id => document.getElementById(id).value = '');
   document.querySelectorAll('#formulario input[type=checkbox]').forEach(cb => cb.checked = false);
@@ -236,23 +242,67 @@ function renderProcesso(id, proc) {
   card.setAttribute('draggable', true);
   card.dataset.id = id;
   card.ondragstart = e => e.dataTransfer.setData('id', id);
+
   const ultimaAcao = proc.log?.slice(-1)[0] || '';
 
   card.innerHTML = `
     <button class="remove-btn" onclick="removerProcesso('${id}')">×</button>
+
     <strong>#${proc.numero}</strong><br>
     <em>${proc.tipo}</em><br>
     ${proc.descricao}<br>
+
     <div><small><b>Protocolo:</b> ${proc.protocolo}</small></div>
     <div><small><b>Etapa:</b> ${proc.etapa || ''}</small></div>
-    <div class="log"><small>📅 ${ultimaAcao.split(' - ')[0]}</small></div>
-    <button class="btn btn-sm btn-link" onclick="verLog('${id}')">Histórico</button>
+
+    ${proc.etapa === "Recebimento de Solicitações" ? `
+      <div>
+        <small>
+          <b>Prazo de Entrega:</b>
+          ${
+            proc.prazoEntrega
+              ? proc.prazoEntrega.split("-").reverse().join("/")
+              : "Não informado"
+          }
+        </small>
+      </div>
+    ` : ""}
+
+    ${proc.etapa === "Aguardando sessão..." ? `
+      <div>
+        <small>
+          <b>Data da Sessão:</b>
+          ${
+            proc.dataSessao
+              ? new Date(proc.dataSessao).toLocaleString("pt-BR")
+              : "Não informada"
+          }
+        </small>
+      </div>
+    ` : ""}
+
+    <div class="log">
+      <small>📅 ${ultimaAcao.split(' - ')[0]}</small>
+    </div>
+
+    <button class="btn btn-sm btn-link" onclick="verLog('${id}')">
+      Histórico
+    </button>
+
     ${proc.status !== 'finalizado' ? `
-      <button class="btn btn-sm btn-primary" onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">Etapa</button>
+      <button class="btn btn-sm btn-primary"
+              onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">
+        Etapa
+      </button>
     ` : ''}
+
     ${proc.etapa === 'Recebimento de Solicitações' ? `
-      <button class="btn btn-sm btn-primary mt-1" onclick="abrirModalDFD('${id}')">Receber Solicitações</button>
+      <button class="btn btn-sm btn-primary mt-1"
+              onclick="abrirModalDFD('${id}')">
+        Receber Solicitações
+      </button>
     ` : ''}
+
     ${proc.etapa === 'Recebimento de Solicitações' && proc.dfds ? (() => {
       const total = Object.keys(proc.dfds).length;
       const recebidos = Object.values(proc.dfds).filter(v => v).length;
@@ -266,10 +316,15 @@ function renderProcesso(id, proc) {
         ${pendentes ? `<div><small><b>Pendentes:</b> ${pendentes}</small></div>` : ''}
       `;
     })() : ''}
+
     ${usuarioLogado ? `
-      <button class="btn btn-sm btn-primary mt-1" onclick="abrirModalEdicao('${id}', '${proc.numero || ''}', '${proc.protocolo || ''}')">Editar Dados</button>
+      <button class="btn btn-sm btn-primary mt-1"
+              onclick="abrirModalEdicao('${id}', '${proc.numero || ''}', '${proc.protocolo || ''}')">
+        Editar Dados
+      </button>
     ` : ''}
   `;
+
   document.getElementById(proc.status).appendChild(card);
 }
 
@@ -354,6 +409,30 @@ function abrirModalEtapa(id, etapaAtual, statusAtual) {
       select.appendChild(opt);
     });
     new bootstrap.Modal(document.getElementById('etapaModal')).show();
+
+    select.onchange = atualizarCamposExtras;
+    atualizarCamposExtras();
+
+    function atualizarCamposExtras(){
+
+        const etapa = select.value;
+
+        document.getElementById("campoPrazo").style.display =
+            etapa === "Recebimento de Solicitações"
+                ? "block"
+                : "none";
+
+        document.getElementById("campoSessao").style.display =
+            etapa === "Aguardando sessão..."
+                ? "block"
+                : "none";
+
+        document.getElementById("prazoEntrega").value =
+            proc.prazoEntrega || "";
+
+        document.getElementById("dataSessao").value =
+            proc.dataSessao || "";
+    }
   });
 }
 
@@ -366,13 +445,35 @@ function salvarEtapa() {
     const proc = snap.val();
     const log = proc.log || [];
     log.push(`${new Date().toLocaleString()} - Etapa alterada para '${novaEtapa}'`);
-    db.ref('processos/' + processoSelecionado).update({
-      etapa: novaEtapa,
-      log
+    const update = {
+        etapa: novaEtapa,
+        log
+    };
+
+    if(novaEtapa === "Recebimento de Solicitações"){
+
+        update.prazoEntrega =
+            document.getElementById("prazoEntrega").value;
+    }
+
+    if (novaEtapa === "Aguardando sessão...") {
+            update.dataSessao = document.getElementById("dataSessao").value;
+        } else {
+            update.dataSessao = "";
+        }
+
+        db.ref('processos/' + processoSelecionado)
+            .update(update)
+            .then(() => {
+                processoSelecionado = null;
+                bootstrap.Modal.getInstance(document.getElementById('etapaModal')).hide();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Erro ao salvar a etapa.");
+            });
+
     });
-    processoSelecionado = null;
-    bootstrap.Modal.getInstance(document.getElementById('etapaModal')).hide();
-  });
 }
 
 db.ref('processos').on('value', snap => {
