@@ -378,6 +378,36 @@
   </div>
 </div>
 
+
+<!-- Modal de Comentários e Pendências -->
+<div class="modal fade" id="comentariosModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-primary text-white">
+        <div>
+          <h5 class="modal-title">💬 Comentários e Pendências</h5>
+          <small id="comentariosProcessoTitulo"></small>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <div id="listaComentarios" class="mb-3">
+          <p class="text-muted">Carregando comentários...</p>
+        </div>
+        <form id="formComentario">
+          <label for="novoComentario" class="form-label fw-semibold">Adicionar comentário</label>
+          <textarea id="novoComentario" class="form-control" rows="3" maxlength="2000"
+            placeholder="Descreva uma observação ou pendência..." required></textarea>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <small class="text-muted">Seu usuário e a data serão registrados automaticamente.</small>
+            <button type="submit" class="btn btn-primary" id="btnEnviarComentario">Enviar comentário</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
     <footer>
       © 2025 - Design e Código por Emerson Braga.
     </footer>
