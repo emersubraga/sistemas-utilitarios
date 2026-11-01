@@ -1,81 +1,967 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="img/brasão.png" />
-    <title>Sistemas Utilitários</title>
-    <meta property="og:title" content="Sistemas Utilitários" />
-    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
-    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistemas Utilitários | Prefeitura de Caraúbas</title>
+
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Sistema de ferramentas utilitárias do Departamento de Compras da Prefeitura Municipal de Caraúbas/RN.">
+    <meta property="og:title" content="Sistemas Utilitários - Prefeitura de Caraúbas">
+    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/">
+    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png">
+
+    <link rel="icon" href="img/brasão.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --primary: #0755a6;
+            --primary-dark: #092d59;
+            --primary-light: #eaf3ff;
+            --text: #16365f;
+            --muted: #6c83a3;
+            --border: #e5edf7;
+            --surface: #ffffff;
+            --background: #f8faff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #0072CE, #29ABE2); /* fundo azul degradê */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(ellipse at 10% 20%, #edf5ff 0, transparent 35%),
+                var(--background);
+            min-height: 100vh;
         }
 
-        .container {
-        background: #fff;
-        padding: 40px;
-        border-radius: 16px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        text-align: center;
-        max-width: 700px;
-        width: 90%;
+        a {
+            color: inherit;
         }
 
-        .logo {
-        margin-bottom: -10px;
+        /* CABEÇALHO */
+
+        .header {
+            min-height: 100px;
+            padding: 18px 5.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
         }
 
-        h1 { 
-        font-size: 1.6rem; margin-bottom: -20px; color: #F36A21; /* laranja destaque */ } 
-
-        h2 { 
-        font-size: 1rem; font-weight: 400; margin-bottom: 30px; color: #002b5c; }
-
-        .buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; } .btn { color: white; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: 0.3s; display: block; } /* Botões com cores diferentes da paleta */ 
-        .btn-orange { background: #F36A21; } 
-        .btn-orange:hover { background: #d95d1b; } 
-        .btn-yellow { background: #FFD600; color: #333; } 
-        .btn-yellow:hover { background: #e6c200; } 
-        .btn-blue { background: #0072CE; } 
-        .btn-blue:hover { background: #005fa8; } 
-        .btn-lightblue { background: #29ABE2; } 
-        .btn-lightblue:hover { background: #1f8cb8; }
-
-
-        footer {
-        margin-top: 25px;
-        font-size: 0.8rem;
-        color: #777;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
         }
+
+        .brand img {
+            width: 76px;
+            height: 76px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 21px;
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            color: var(--primary-dark);
+        }
+
+        .brand-name span {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0;
+            color: var(--muted);
+            margin-bottom: 3px;
+        }
+
+        .brand-divider {
+            width: 1px;
+            height: 45px;
+            background: #cfdaeb;
+        }
+
+        .department {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .header-tools {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: min(390px, 35%);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 13px 17px;
+            background: #f0f5fc;
+            border: 1px solid transparent;
+            border-radius: 30px;
+            transition: 0.2s ease;
+        }
+
+        .search-box:focus-within {
+            background: #fff;
+            border-color: #8bbcff;
+            box-shadow: 0 0 0 3px #e1edff;
+        }
+
+        .search-box svg {
+            flex-shrink: 0;
+            color: var(--primary);
+        }
+
+        .search-box input {
+            width: 100%;
+            min-width: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            font: inherit;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        .search-box input::placeholder {
+            color: #8094b1;
+        }
+
+        /* CONTEÚDO */
+
+        .main {
+            max-width: 1500px;
+            width: 89%;
+            margin: 0 auto;
+            padding: 32px 0 0;
+        }
+
+        /* DESTAQUE */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 290px;
+            padding: 45px 48px;
+            border-radius: 15px;
+            color: white;
+            background: linear-gradient(112deg, #0a2b53 0%, #084c96 62%, #168be0 100%);
+            box-shadow: 0 12px 35px rgba(17, 72, 132, 0.12);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 440px;
+            height: 440px;
+            right: 8%;
+            top: -220px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 35px rgba(255,255,255,0.035),
+                0 0 0 75px rgba(255,255,255,0.025);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 32%;
+            height: 150%;
+            right: 5%;
+            top: -25%;
+            transform: skewX(-28deg);
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0.02),
+                rgba(74,170,255,0.16)
+            );
+            border-left: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: #b8d9ff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::after {
+            content: "";
+            display: block;
+            width: 48px;
+            height: 2px;
+            background: #43b2ff;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(28px, 3.5vw, 43px);
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            font-weight: 800;
+        }
+
+        .hero h2 {
+            margin: 7px 0 18px;
+            font-size: clamp(19px, 2.3vw, 28px);
+            font-weight: 500;
+            letter-spacing: -0.7px;
+            color: #e2efff;
+        }
+
+        .hero p {
+            max-width: 520px;
+            margin: 0;
+            color: #c9def8;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* SEÇÃO DE FERRAMENTAS */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            margin: 38px 0 20px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: var(--primary-dark);
+        }
+
+        .section-heading p {
+            margin: 7px 0 0;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .tool-count {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            --accent: #2780f5;
+            --icon-bg: #e9f2ff;
+
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-height: 142px;
+            padding: 24px 22px;
+            overflow: hidden;
+            text-decoration: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(32, 74, 124, 0.045);
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease;
+        }
+
+        .tool-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            background: var(--accent);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--accent) 40%, white);
+            box-shadow: 0 13px 30px rgba(32, 74, 124, 0.10);
+        }
+
+        .tool-card:focus-visible {
+            outline: 3px solid #8bbcff;
+            outline-offset: 3px;
+        }
+
+        .tool-icon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            color: var(--accent);
+            background: var(--icon-bg);
+        }
+
+        .tool-icon svg {
+            width: 31px;
+            height: 31px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .tool-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .tool-info h3 {
+            margin: 0 0 9px;
+            color: var(--primary-dark);
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.45;
+        }
+
+        .tool-info p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .tool-arrow {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            color: var(--accent);
+            background: var(--icon-bg);
+            transition: transform 0.2s ease;
+        }
+
+        .tool-arrow svg {
+            width: 17px;
+            height: 17px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .tool-card:hover .tool-arrow {
+            transform: translateX(3px);
+        }
+
+        .blue {
+            --accent: #1879ed;
+            --icon-bg: #e8f1ff;
+        }
+
+        .green {
+            --accent: #169c50;
+            --icon-bg: #e7f8ed;
+        }
+
+        .orange {
+            --accent: #f36b2a;
+            --icon-bg: #fff0e8;
+        }
+
+        .purple {
+            --accent: #7446e8;
+            --icon-bg: #f0eaff;
+        }
+
+        .teal {
+            --accent: #0799ad;
+            --icon-bg: #e3f8fa;
+        }
+
+        .navy {
+            --accent: #0755a6;
+            --icon-bg: #e6effc;
+        }
+
+        /* RODAPÉ */
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-top: 42px;
+            padding: 24px 0 28px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .footer-left img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .footer strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .footer-message {
+            text-align: right;
+            font-style: italic;
+        }
+
+        .footer-message::after {
+            content: "";
+            display: inline-block;
+            width: 25px;
+            height: 3px;
+            margin-left: 12px;
+            vertical-align: middle;
+            background: #168be0;
+            border-radius: 3px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 1100px) {
+            .header {
+                padding-left: 4%;
+                padding-right: 4%;
+            }
+
+            .main {
+                width: 92%;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .tool-card {
+                padding: 22px 18px;
+                gap: 14px;
+            }
+
+            .tool-icon {
+                width: 58px;
+                height: 58px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                min-height: auto;
+                flex-wrap: wrap;
+                gap: 16px;
+                padding: 16px 5%;
+            }
+
+            .brand {
+                gap: 10px;
+            }
+
+            .brand img {
+                width: 57px;
+                height: 57px;
+            }
+
+            .brand-name {
+                font-size: 17px;
+            }
+
+            .brand-name span {
+                font-size: 10px;
+            }
+
+            .brand-divider {
+                height: 35px;
+            }
+
+            .department {
+                font-size: 11px;
+            }
+
+            .header-tools {
+                width: 100%;
+            }
+
+            .main {
+                width: 90%;
+                padding-top: 22px;
+            }
+
+            .hero {
+                min-height: 260px;
+                padding: 30px 25px;
+                border-radius: 12px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero h2 {
+                font-size: 20px;
+            }
+
+            .hero p {
+                font-size: 12px;
+            }
+
+            .hero::before {
+                right: -250px;
+            }
+
+            .hero::after {
+                right: -18%;
+                width: 50%;
+            }
+
+            .section-heading {
+                margin-top: 30px;
+            }
+
+            .section-heading h2 {
+                font-size: 19px;
+            }
+
+            .section-heading p {
+                font-size: 11px;
+                line-height: 1.6;
+            }
+
+            .tool-count {
+                display: none;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 13px;
+            }
+
+            .tool-card {
+                min-height: 115px;
+                padding: 18px;
+            }
+
+            .tool-icon {
+                width: 55px;
+                height: 55px;
+                border-radius: 15px;
+            }
+
+            .tool-icon svg {
+                width: 27px;
+                height: 27px;
+            }
+
+            .tool-info h3 {
+                font-size: 13px;
+                margin-bottom: 5px;
+            }
+
+            .tool-info p {
+                font-size: 11px;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 28px;
+                gap: 14px;
+            }
+
+            .footer-message {
+                text-align: left;
+                line-height: 1.7;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+
+      .hero {
+          position: relative;
+          isolation: isolate;
+          overflow: hidden;
+          background: #08417d;
+      }
+
+
+      .hero-photo {
+          position: absolute;
+          inset: 0 0 0 40%;
+          z-index: -1;
+          overflow: hidden;
+      }
+
+      .hero-photo img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          object-position: center;
+      }
+
+      .hero-photo::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background: linear-gradient(
+              90deg,
+              #08417d 0%,
+              rgba(8, 65, 125, 0.98) 10%,
+              rgba(8, 65, 125, 0.88) 25%,
+              rgba(8, 65, 125, 0.62) 42%,
+              rgba(8, 65, 125, 0.30) 62%,
+              rgba(8, 65, 125, 0.08) 82%,
+              transparent 100%
+          );
+      }
+
+
+      .hero-content {
+          position: relative;
+          z-index: 1;
+      }
+
+      @media (max-width: 700px) {
+          .hero-photo::after {
+              background: linear-gradient(
+                  90deg,
+                  rgba(8, 43, 83, 0.94),
+                  rgba(8, 65, 125, 0.65)
+              );
+          }
+      }
     </style>
 </head>
+
 <body>
-  <div class="container">
-    <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
-    <h1>Prefeitura de Caraúbas</h1>
-    <h2>Departamento de Compras</h2>
 
-    <div class="buttons">
-      <a href="qrcode.html" class="btn btn-blue">📌 QRCode</a>
-      <a href="juntar-pdf.html" class="btn btn-yellow">📂 Juntar PDFs</a>
-      <a href="comprovacoes.html" class="btn btn-orange">📷 Comprovações Fotográficas</a>
-      <a href="relatorios.html" class="btn btn-orange">📝 Relatórios Textuais</a>
-      <a href="controle-interno.html" class="btn btn-lightblue">⚙️ Controle Interno</a>
-      <a href="controle-processos.html" class="btn btn-blue">📊 Acompanhamento de Processos</a>
-    </div>
+    <header class="header">
+        <div class="brand">
+            <img src="img/brasão.png" alt="Brasão da Prefeitura de Caraúbas">
 
-    <footer>
-      © 2025 - Design e Código por Emerson Braga.
-    </footer>
-  </div>
+            <div class="brand-name">
+                <span>Prefeitura de</span>
+                Caraúbas
+            </div>
+
+            <div class="brand-divider"></div>
+
+            <div class="department">
+                Departamento de Compras
+            </div>
+        </div>
+
+        <div class="header-tools">
+            <!-- <label class="search-box" for="search-tools">
+                <svg width="19" height="19" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m16 16 4 4"></path>
+                </svg>
+
+                <input
+                    type="search"
+                    id="search-tools"
+                    placeholder="O que você precisa fazer hoje?"
+                    autocomplete="off"
+                    aria-label="Pesquisar ferramentas"
+                >
+            </label> -->
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="hero">
+            <div class="hero-photo">
+                <img
+                    src="img/prefeitura.png"
+                    alt="Fachada da Prefeitura Municipal de Caraúbas"
+                >
+            </div>
+            <div class="hero-content">
+                <div class="eyebrow">Sistema Utilitários</div>
+
+                <h1>Prefeitura de Caraúbas</h1>
+                <h2>Departamento de Compras</h2>
+
+                <p>
+                    Ferramentas que facilitam o seu trabalho e
+                    agilizam os processos.
+                </p>
+            </div>
+        </section>
+
+        <section aria-labelledby="tools-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="tools-title">Ferramentas disponíveis</h2>
+                    <p>Acesse rapidamente os recursos do sistema.</p>
+                </div>
+
+                <span class="tool-count" id="tool-count">
+                    6 ferramentas disponíveis
+                </span>
+            </div>
+
+            <div class="tools-grid" id="tools-grid">
+
+                <a href="qrcode.html" class="tool-card blue" data-search="qrcode qr código gerar código">
+                    <div class="tool-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                            <path d="M14 14h3v3h-3zM20 14v2M14 20h2M18 18h3v3h-3z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="tool-info">
+                        <h3>QRCode</h3>
+                        <p>Gere QR Codes para seus documentos e processos.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <a href="juntar-pdf.html" class="tool-card green" data-search="juntar pdf juntar arquivos documentos">
+                    <div class="tool-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 2h8l5 5v15H6z"></path>
+                            <path d="M14 2v6h5M9 13h7M9 17h7"></path>
+                        </svg>
+                    </div>
+
+                    <div class="tool-info">
+                        <h3>Juntar PDFs</h3>
+                        <p>Una múltiplos arquivos PDF em um só documento.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <a href="comprovacoes.html" class="tool-card orange" data-search="comprovações fotográficas fotos imagens registros">
+                    <div class="tool-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 7h4l2-3h6l2 3h4v13H3z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                    </div>
+
+                    <div class="tool-info">
+                        <h3>Comprovações Fotográficas</h3>
+                        <p>Anexe e organize fotos das comprovações.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <a href="relatorios.html" class="tool-card purple" data-search="relatórios textuais documentos textos">
+                    <div class="tool-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 2h8l5 5v15H6z"></path>
+                            <path d="M14 2v6h5M9 13h7M9 17h7"></path>
+                        </svg>
+                    </div>
+
+                    <div class="tool-info">
+                        <h3>Relatórios Textuais</h3>
+                        <p>Crie relatórios e documentos personalizados.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <a href="controle-interno.html" class="tool-card teal" data-search="controle interno gestão gerenciamento">
+                    <div class="tool-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="m12 2 2.2 2.1 3-.1.9 2.8 2.5 1.6-.9 2.9.9 2.9-2.5 1.6-.9 2.8-3-.1L12 21l-2.2-2.1-3 .1-.9-2.8-2.5-1.6.9-2.9-.9-2.9 2.5-1.6.9-2.8 3 .1z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+
+                    <div class="tool-info">
+                        <h3>Controle Interno</h3>
+                        <p>Acompanhe e gerencie os processos internos.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </a>
+
+                <a href="controle-processos.html" class="tool-card navy" data-search="acompanhamento processos ordens status andamento">
+                    <div class="tool-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 13h5v8H3zM10 7h5v14h-5zM17 3h5v18h-5z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="tool-info">
+                        <h3>Acompanhamento de Processos</h3>
+                        <p>Monitore o andamento dos processos.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </a>
+
+            </div>
+
+            <p id="no-results" hidden>
+                Nenhuma ferramenta encontrada para essa pesquisa.
+            </p>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <img src="img/brasão.png" alt="" aria-hidden="true">
+
+                <strong>Sistema Utilitários</strong>
+
+                <span>·</span>
+
+                <span>Versão 1.0</span>
+            </div>
+
+            <div class="footer-message">
+                Modernidade, organização e eficiência para Caraúbas.
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        const searchInput = document.getElementById('search-tools');
+        const toolCards = [...document.querySelectorAll('.tool-card')];
+        const toolCount = document.getElementById('tool-count');
+        const noResults = document.getElementById('no-results');
+
+        searchInput.addEventListener('input', () => {
+            const search = searchInput.value
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim();
+
+            let visibleCount = 0;
+
+            toolCards.forEach(card => {
+                const content = (
+                    card.innerText + ' ' + card.dataset.search
+                )
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .toLowerCase();
+
+                const matches = content.includes(search);
+
+                card.hidden = !matches;
+
+                if (matches) visibleCount++;
+            });
+
+            toolCount.textContent =
+                `${visibleCount} ${visibleCount === 1 ? 'ferramenta disponível' : 'ferramentas disponíveis'}`;
+
+            noResults.hidden = visibleCount !== 0;
+        });
+    </script>
+
 </body>
 </html>

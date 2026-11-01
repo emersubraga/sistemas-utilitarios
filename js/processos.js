@@ -17,6 +17,10 @@ let usuarioLogado = false;
 
 auth.onAuthStateChanged(user => {
   usuarioLogado = !!user;
+
+  // Redesenha os cards: o botão "Editar" só aparece para quem está logado, e o
+  // login pode ser restaurado depois de os dados já terem sido desenhados.
+  if (typeof filtrarProcessos === 'function') filtrarProcessos();
 });
 
 const db = firebase.database();
@@ -209,13 +213,25 @@ function getEtapasPorTipo(tipo, status) {
   return [];
 }
 
+// A cor dos cards agora vem do CSS (faixa lateral na cor da coluna).
+// Mantida apenas por compatibilidade, caso algum outro script a utilize.
 function getCardColor(status) {
   switch (status) {
-    case 'compra': return '#8d8d8dff';
-    case 'licitacao': return '#ebe97bff';
-    case 'finalizado': return '#7feb7bff';
+    case 'compra': return '#f36b2a';
+    case 'licitacao': return '#7446e8';
+    case 'finalizado': return '#169c50';
     default: return '#ccc';
   }
+}
+
+// Escapa texto vindo do banco antes de colocá-lo em innerHTML.
+function esc(valor) {
+  return String(valor ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function adicionarProcesso() {
@@ -278,99 +294,95 @@ function renderProcesso(id, proc) {
 
   const card = document.createElement('div');
   card.className = 'card';
-  card.style.backgroundColor = getCardColor(proc.status);
   card.setAttribute('draggable', true);
   card.dataset.id = id;
   card.ondragstart = e => e.dataTransfer.setData('id', id);
 
   const ultimaAcao = proc.log?.slice(-1)[0] || '';
 
+  const qtdComentarios = Object.keys(proc.comentarios || {}).length;
+
   card.innerHTML = `
-    <button class="remove-btn" onclick="removerProcesso('${id}')">×</button>
+    <button class="remove-btn" title="Excluir processo" onclick="removerProcesso('${id}')">×</button>
 
-    <strong>#${proc.numero}</strong><br>
-    <em>${proc.tipo}</em><br>
-    ${proc.descricao}<br>
-
-    <div><small><b>Protocolo:</b> ${proc.protocolo}</small></div>
-    <div><small><b>Etapa:</b> ${proc.etapa || ''}</small></div>
-
-    ${proc.etapa === "Recebimento de Solicitações" ? `
-      <div>
-        <small>
-          <b>Prazo de Entrega:</b>
-          ${
-            proc.prazoEntrega
-              ? proc.prazoEntrega.split("-").reverse().join("/")
-              : "Não informado"
-          }
-        </small>
-      </div>
-    ` : ""}
-
-    ${proc.etapa === "Aguardando sessão..." ? `
-      <div>
-        <small>
-          <b>Data da Sessão:</b>
-          ${
-            proc.dataSessao
-              ? new Date(proc.dataSessao).toLocaleString("pt-BR")
-              : "Não informada"
-          }
-        </small>
-      </div>
-    ` : ""}
-
-    <div class="log">
-      <small>📅 ${ultimaAcao.split(' - ')[0]}</small>
+    <div class="card-top">
+      <span class="tipo-badge">${esc(proc.tipo)}</span>
+      <span class="card-numero">#${esc(proc.numero)}</span>
     </div>
 
-    <button class="btn btn-sm btn-link" onclick="verLog('${id}')">
-      Histórico
+    <p class="card-desc">${esc(proc.descricao)}</p>
+
+    <div class="card-meta">
+      <div class="meta-row"><b>Protocolo</b><span>${esc(proc.protocolo) || '—'}</span></div>
+      <div class="etapa-pill">${esc(proc.etapa || 'Sem etapa')}</div>
+
+      ${proc.etapa === "Recebimento de Solicitações" ? `
+        <div class="meta-row">
+          <b>Prazo de entrega</b>
+          <span>${
+            proc.prazoEntrega
+              ? esc(proc.prazoEntrega.split("-").reverse().join("/"))
+              : "Não informado"
+          }</span>
+        </div>
+      ` : ""}
+
+      ${proc.etapa === "Aguardando sessão..." ? `
+        <div class="meta-row">
+          <b>Data da sessão</b>
+          <span>${
+            proc.dataSessao
+              ? esc(new Date(proc.dataSessao).toLocaleString("pt-BR"))
+              : "Não informada"
+          }</span>
+        </div>
+      ` : ""}
+
+      ${proc.etapa === 'Recebimento de Solicitações' && proc.dfds ? (() => {
+        const total = Object.keys(proc.dfds).length;
+        const recebidos = Object.values(proc.dfds).filter(v => v).length;
+        const pendentes = Object.entries(proc.dfds)
+          .filter(([_, entregue]) => !entregue)
+          .map(([sec]) => esc(sec))
+          .join(', ');
+
+        return `
+          <div class="meta-row"><b>Solicitações</b><span>${recebidos}/${total} recebidas</span></div>
+          ${pendentes ? `<div class="meta-pendentes"><b>Pendentes:</b> ${pendentes}</div>` : ''}
+        `;
+      })() : ''}
+    </div>
+
+    <div class="card-date">📅 ${esc(ultimaAcao.split(' - ')[0])}</div>
+
+    <div class="card-actions">
+      ${proc.status !== 'finalizado' ? `
+        <button class="btn btn-sm btn-primary"
+                onclick="abrirModalEtapa('${id}', '${esc(proc.etapa || '')}', '${proc.status}')">
+          Etapa
+        </button>
+      ` : ''}
+
+      ${proc.etapa === 'Recebimento de Solicitações' ? `
+        <button class="btn btn-sm btn-primary" onclick="abrirModalDFD('${id}')">
+          Receber Solicitações
+        </button>
+      ` : ''}
+
+      <button class="btn btn-sm btn-outline-primary" onclick="verLog('${id}')">
+        Histórico
+      </button>
+
+      ${usuarioLogado ? `
+        <button class="btn btn-sm btn-outline-primary" onclick="abrirModalEdicao('${id}')">
+          Editar
+        </button>
+      ` : ''}
+    </div>
+
+    <button class="btn btn-sm btn-comentarios" onclick="abrirComentarios('${id}')">
+      💬 Comentários (${qtdComentarios})
     </button>
-
-
-    <button
-    class="btn btn-sm btn-primary mt-1 w-100 mb-5"
-    onclick="abrirComentarios('${id}')">
-    💬 Comentários (${Object.keys(proc.comentarios || {}).length})
-    </button>
-
-
-    ${proc.status !== 'finalizado' ? `
-      <button class="btn btn-sm btn-primary"
-              onclick="abrirModalEtapa('${id}', '${proc.etapa || ''}', '${proc.status}')">
-        Etapa
-      </button>
-    ` : ''}
-
-    ${proc.etapa === 'Recebimento de Solicitações' ? `
-      <button class="btn btn-sm btn-primary mt-1"
-              onclick="abrirModalDFD('${id}')">
-        Receber Solicitações
-      </button>
-    ` : ''}
-
-    ${proc.etapa === 'Recebimento de Solicitações' && proc.dfds ? (() => {
-      const total = Object.keys(proc.dfds).length;
-      const recebidos = Object.values(proc.dfds).filter(v => v).length;
-      const pendentes = Object.entries(proc.dfds)
-        .filter(([_, entregue]) => !entregue)
-        .map(([sec]) => sec)
-        .join(', ');
-
-      return `
-        <div><small><b>Solicitações:</b> ${recebidos}/${total} recebidos</small></div>
-        ${pendentes ? `<div><small><b>Pendentes:</b> ${pendentes}</small></div>` : ''}
-      `;
-    })() : ''}
-
-    ${usuarioLogado ? `
-      <button class="btn btn-sm btn-primary mt-1"
-              onclick="abrirModalEdicao('${id}', '${proc.numero || ''}', '${proc.protocolo || ''}')">
-        Editar Dados
-      </button>
-    ` : ''}
   `;
 
   document.getElementById(proc.status).appendChild(card);
@@ -619,6 +631,13 @@ let processoEdicaoAtual = null;
 
 function abrirModalEdicao(id, numero, protocolo) {
   processoEdicaoAtual = id;
+
+  // Se número/protocolo não vierem como argumento, busca no cache.
+  if (numero === undefined || protocolo === undefined) {
+    const dados = processosCache.find(item => item.id === id)?.data || {};
+    numero = dados.numero;
+    protocolo = dados.protocolo;
+  }
 
   document.getElementById('editNumero').value = numero || '';
   document.getElementById('editProtocolo').value = protocolo || '';

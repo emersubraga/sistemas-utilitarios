@@ -1,156 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="img/brasão.png">
-  <title>Gerador de Comprovações</title>
-  <meta property="og:title" content="Sistemas Utilitários" />
-  <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
-  <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0072CE, #29ABE2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+    <title>Relatório Fotográfico com Legendas | Prefeitura de Caraúbas</title>
 
-    .container {
-      background:#fff; padding:40px; border-radius:16px;
-      box-shadow:0 8px 20px rgba(0,0,0,.15);
-      max-width: 500px; width: 95%; text-align: center;
-      margin-top: 20px; margin-bottom: 20px;
-    }
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Sistemas Utilitários" />
+    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
 
-    .logo {
-      margin-bottom: -10px;
-    }
-
-    h1 { 
-      font-size: 1.6rem;
-      margin-bottom: -15px;
-      color: #F36A21;
-    } 
-
-    h2 { 
-      font-size: 1rem;
-      font-weight: 400;
-      margin-bottom: 30px;
-      color: #002b5c;
-    }
-
-    h3 {
-      margin-bottom: 20px;
-      color: #0072CE;
-    }
-
-    form {
-      text-align: left;
-    }
-
-    .input-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    input, select, textarea {
-      flex: 1;
-      font-size: 1rem;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      background: #fff;
-      color: #000;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    .btn {
-      margin-top: 15px;
-      padding: 12px;
-      font-size: 1rem;
-      width: 100%;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-      display: block;
-      color: white;
-      background: #0072CE;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: #005fa8;
-    }
-
-    footer {
-      margin-top: 25px;
-      font-size: 0.8rem;
-      color: #777;
-    }
-  </style>
+    <link rel="icon" href="img/brasão.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
+
 <body>
-  <div class="container">
-    <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
-    <h1>Prefeitura de Caraúbas</h1>
-    <h2>Departamento de Compras</h2>
 
-    <h3 class="text-center">Relatório Fotográfico com Legendas</h3>
-    <form id="form">
+    <header class="header">
+        <div class="brand">
+            <img src="img/brasão.png" alt="Brasão da Prefeitura de Caraúbas">
 
-      <div class="input-row">
-        <select id="modelo" required>
-          <option value="">Escolha o modelo...</option>
-          <option value="administracao">Administração</option>
-          <option value="saude">Saúde</option>
-          <option value="assistencia">Assistência Social</option>
-          <option value="cultura">Cultura</option>
-          <option value="educacao">Educação</option>
-          <option value="governo">Governo</option>
-          <option value="campo">Políticas do Campo</option>
-          <option value="infraestrutura">Infraestrutura</option>
-        </select>
-        <input type="text" id="empresa" placeholder="Empresa" required>
-      </div>
+            <div class="brand-name">
+                <span>Prefeitura de</span>
+                Caraúbas
+            </div>
 
-      <div class="input-row">
-        <input type="text" id="nota" placeholder="Nota Fiscal" required>
-        <input type="text" id="ordem" placeholder="Ordem de C/S" required>
-      </div>
+            <div class="brand-divider"></div>
 
-      <div class="input-row">
-        <input type="text" id="data" placeholder="Faturamento Mês/Ano" required>
-      </div>
-
-      <div id="imagens-container">
-        <div class="input-row">
-          <input type="file" name="imagem[]" id="imagem[]" accept="image/png, image/jpeg" required>
-          <textarea name="legenda[]" id="ilegenda[]" rows="1" placeholder="Digite a legenda da imagem..." required></textarea>
+            <div class="department">Departamento de Compras</div>
         </div>
-      </div>
 
-      <button type="button" class="btn" onclick="adicionarImagem()">Adicionar nova imagem</button>
-      <button class="btn" type="submit">Gerar Documento</button>
-    </form>
+        <a href="comprovacoes.html" class="back-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+            Voltar às comprovações
+        </a>
+    </header>
 
-    <footer>
-      © 2025 - Design e Código por Emerson Braga.
-    </footer>
-  </div>
+    <main class="main narrow">
 
-  <script src="js/relatorio-fotografico-legendado.js"></script>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">Comprovações</div>
+                <h1>Relatório Fotográfico com Legendas</h1>
+                <p>Preencha os dados e adicione cada imagem com a sua legenda.</p>
+            </div>
+        </section>
+
+        <section aria-labelledby="form-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="form-title">Dados do relatório</h2>
+                    <p>Use o botão abaixo para incluir mais imagens.</p>
+                </div>
+            </div>
+
+            <div class="panel ">
+                <form id="form">
+
+                    <div class="input-row">
+                        <select id="modelo" required>
+                        <option value="">Escolha o modelo...</option>
+                        <option value="administracao">Administração</option>
+                        <option value="saude">Saúde</option>
+                        <option value="assistencia">Assistência Social</option>
+                        <option value="cultura">Cultura</option>
+                        <option value="educacao">Educação</option>
+                        <option value="governo">Governo</option>
+                        <option value="campo">Políticas do Campo</option>
+                        <option value="infraestrutura">Infraestrutura</option>
+                        </select>
+                        <input type="text" id="empresa" placeholder="Empresa" required>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" id="nota" placeholder="Nota Fiscal" required>
+                        <input type="text" id="ordem" placeholder="Ordem de C/S" required>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" id="data" placeholder="Faturamento Mês/Ano" required>
+                    </div>
+
+                    <div id="imagens-container">
+                        <div class="input-row">
+                            <input type="file" name="imagem[]" id="imagem[]" accept="image/png, image/jpeg" required>
+                            <textarea name="legenda[]" id="ilegenda[]" rows="1" placeholder="Digite a legenda da imagem..." required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline" onclick="adicionarImagem()">Adicionar nova imagem</button>
+                    <button class="btn" type="submit">Gerar Documento</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <img src="img/brasão.png" alt="" aria-hidden="true">
+                <strong>Sistema Utilitários</strong>
+                <span>·</span>
+                <span>© 2025 - Design e Código por Emerson Braga.</span>
+            </div>
+
+            <div class="footer-message">
+                Modernidade, organização e eficiência para Caraúbas.
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="js/relatorio-fotografico-legendado.js"></script>
 </body>
 </html>

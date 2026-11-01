@@ -1,446 +1,1052 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Painel de Processos</title>
-  <link rel="icon" href="img/brasão.png" />
-  <meta property="og:title" content="Sistemas Utilitários" />
-  <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
-  <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0072CE, #29ABE2);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    <title>Acompanhamento de Processos | Prefeitura de Caraúbas</title>
 
-    .container-box {
-      background: #fff;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      max-width: 1200px;
-      width: 95%;
-      margin: 30px auto;
-    }
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Sistemas Utilitários" />
+    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
 
-    .logo {
-      margin-bottom: 15px;
-    }
+    <link rel="icon" href="img/brasão.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    h1 { 
-      font-size: 1.6rem;
-      margin-bottom: 5px;
-      color: #F36A21;
-    } 
+    <style>
+        :root {
+            --primary: #0755a6;
+            --primary-dark: #092d59;
+            --primary-light: #eaf3ff;
+            --text: #16365f;
+            --muted: #6c83a3;
+            --border: #e5edf7;
+            --surface: #ffffff;
+            --background: #f8faff;
+        }
 
-    h2 { 
-      font-size: 1rem;
-      font-weight: 400;
-      margin-bottom: 30px;
-      color: #002b5c;
-    }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
-    /* Kanban */
-    .kanban-board {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      padding: 20px;
-      gap: 20px;
-    }
-    .column {
-      flex: 1 1 300px;
-      max-width: 33%;
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      min-width: 280px;
-      background: #f9f9f9;
-    }
-    .column h3 {
-      text-align: center;
-      color: #0072CE;
-    }
-    .card {
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      cursor: grab;
-      position: relative;
-      background: #fff;
-      border: 1px solid #ddd;
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(ellipse at 10% 20%, #edf5ff 0, transparent 35%),
+                var(--background);
+            min-height: 100vh;
+        }
 
-      /* transição suave para o movimento */
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+        /* CABEÇALHO */
 
-    /* efeito ao passar o mouse */
-    .card:hover {
-      transform: translateY(-4px); /* levanta o card */
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    }
+        .header {
+            min-height: 100px;
+            padding: 18px 5.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
+        }
 
-    .remove-btn {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      background: transparent;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-      color: #e74c3c;   /* vermelho */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+        }
 
-      /* transição para suavizar */
-      transition: transform 0.15s ease, color 0.15s ease;
-    }
+        .brand img { width: 76px; height: 76px; object-fit: contain; }
 
-    .remove-btn:hover {
-      transform: scale(1.2);
-      color: #c0392b;   /* vermelho mais escuro ao passar o mouse */
-    }
+        .brand-name {
+            font-size: 21px;
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            color: var(--primary-dark);
+        }
 
+        .brand-name span {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0;
+            color: var(--muted);
+            margin-bottom: 3px;
+        }
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 0.8rem;
-      color: #777;
-    }
-  </style>
+        .brand-divider { width: 1px; height: 45px; background: #cfdaeb; }
+
+        .department {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 18px;
+            border-radius: 30px;
+            background: #f0f5fc;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .back-link:hover { background: var(--primary-light); color: var(--primary-dark); }
+
+        .back-link svg {
+            width: 16px; height: 16px;
+            stroke: currentColor; stroke-width: 2; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* CONTEÚDO */
+
+        .main {
+            max-width: 1500px;
+            width: 89%;
+            margin: 0 auto;
+            padding: 32px 0 0;
+        }
+
+        /* DESTAQUE */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 200px;
+            padding: 38px 48px;
+            border-radius: 15px;
+            color: white;
+            background: linear-gradient(112deg, #0a2b53 0%, #084c96 62%, #168be0 100%);
+            box-shadow: 0 12px 35px rgba(17, 72, 132, 0.12);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 440px;
+            height: 440px;
+            right: 8%;
+            top: -220px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            box-shadow: 0 0 0 35px rgba(255,255,255,0.035), 0 0 0 75px rgba(255,255,255,0.025);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 32%;
+            height: 150%;
+            right: 5%;
+            top: -25%;
+            transform: skewX(-28deg);
+            background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(74,170,255,0.16));
+            border-left: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            color: #b8d9ff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::after { content: ""; display: block; width: 48px; height: 2px; background: #43b2ff; }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(26px, 3.2vw, 38px);
+            line-height: 1.15;
+            letter-spacing: -1.3px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .hero p {
+            max-width: 520px;
+            margin: 12px 0 0;
+            color: #c9def8;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* TÍTULOS DE SEÇÃO */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 38px 0 20px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: var(--primary-dark);
+        }
+
+        .section-heading p { margin: 7px 0 0; font-size: 12px; color: var(--muted); }
+
+        .summary { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .summary-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .summary-chip.orange { background: #fff0e8; color: #f36b2a; }
+        .summary-chip.purple { background: #f0eaff; color: #7446e8; }
+        .summary-chip.green  { background: #e7f8ed; color: #169c50; }
+
+        /* PAINEL DO FORMULÁRIO */
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(32, 74, 124, 0.045);
+            padding: 24px;
+        }
+
+        .panel .form-control,
+        .panel .form-select {
+            font-size: 13px;
+            border: 1px solid transparent;
+            background-color: #f0f5fc;
+            border-radius: 10px;
+            padding: 11px 14px;
+            color: var(--text);
+            transition: 0.2s ease;
+        }
+
+        .panel .form-control:focus,
+        .panel .form-select:focus {
+            background-color: #fff;
+            border-color: #8bbcff;
+            box-shadow: 0 0 0 3px #e1edff;
+        }
+
+        .panel .form-control::placeholder { color: #8094b1; }
+
+        .panel .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .btn-primary {
+            --bs-btn-bg: var(--primary);
+            --bs-btn-border-color: var(--primary);
+            --bs-btn-hover-bg: var(--primary-dark);
+            --bs-btn-hover-border-color: var(--primary-dark);
+            --bs-btn-active-bg: var(--primary-dark);
+            --bs-btn-active-border-color: var(--primary-dark);
+            background-color: var(--primary);
+            border-color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 11px 14px;
+        }
+
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+            background-color: var(--primary-dark) !important;
+            border-color: var(--primary-dark) !important;
+        }
+
+        .secretarias-box {
+            height: 180px;
+            overflow-y: auto;
+            background: #f8faff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .secretarias-box .form-check-label { font-size: 12px; color: var(--text); }
+        .secretarias-box .form-check-input:checked { background-color: var(--primary); border-color: var(--primary); }
+
+        /* KANBAN */
+
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+
+        .column {
+            --accent: #f36b2a;
+            --icon-bg: #fff0e8;
+
+            position: relative;
+            min-height: 260px;
+            padding: 18px 16px 16px;
+            overflow: hidden;
+            background: #f1f6fd;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(32, 74, 124, 0.045);
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .column::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        #compra    { --accent: #f36b2a; --icon-bg: #fff0e8; }
+        #licitacao { --accent: #7446e8; --icon-bg: #f0eaff; }
+        #finalizado{ --accent: #169c50; --icon-bg: #e7f8ed; }
+
+        .column.drag-over {
+            background: var(--icon-bg);
+            border-color: var(--accent);
+        }
+
+        .column h3 {
+            margin: 0 0 14px;
+            padding: 0 4px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+            color: var(--primary-dark);
+        }
+
+        /* CARDS DOS PROCESSOS (renderizados pelo JS) */
+
+        .column .card {
+            position: relative;
+            padding: 16px 18px 16px 20px;
+            margin: 0 0 12px;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(32, 74, 124, 0.045);
+            color: var(--text);
+            font-size: 12px;
+            line-height: 1.6;
+            cursor: grab;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .column .card::before {
+            content: "";
+            position: absolute;
+            top: 0; bottom: 0; left: 0;
+            width: 4px;
+            background: var(--accent);
+        }
+
+        .column .card:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--accent) 40%, white);
+            box-shadow: 0 13px 30px rgba(32, 74, 124, 0.10);
+        }
+
+        .column .card:active { cursor: grabbing; }
+
+        .column .card strong, .column .card b { color: var(--primary-dark); }
+        .column .card h4, .column .card h5 {
+            margin: 0 0 6px;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .column .card p { margin: 0 0 4px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+        .column .card small { color: var(--muted); }
+
+        .column .card .btn {
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 4px 10px;
+            margin: 4px 4px 0 0;
+        }
+
+        /* Estrutura interna do card (gerada em processos.js) */
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding-right: 28px;
+            margin-bottom: 8px;
+        }
+
+        .tipo-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            background: var(--icon-bg);
+            color: var(--accent);
+        }
+
+        .card-numero {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            color: var(--primary-dark);
+        }
+
+        .card-desc {
+            margin: 0 0 10px !important;
+            font-size: 12px !important;
+            font-weight: 500;
+            line-height: 1.6 !important;
+            color: var(--text) !important;
+            overflow-wrap: anywhere;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #f8faff;
+            border: 1px solid var(--border);
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .meta-row b { font-weight: 600; color: var(--muted); }
+        .meta-row span { font-weight: 700; color: var(--text); text-align: right; }
+
+        .etapa-pill {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.4;
+            background: var(--icon-bg);
+            color: var(--accent);
+        }
+
+        .meta-pendentes {
+            font-size: 10.5px;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+
+        .meta-pendentes b { color: #c0392b; font-weight: 700; }
+
+        .card-date {
+            margin: 10px 0 8px;
+            font-size: 10.5px;
+            color: var(--muted);
+        }
+
+        .card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .column .card .card-actions .btn { margin: 0; }
+
+        .column .card .btn-outline-primary {
+            --bs-btn-color: var(--primary);
+            --bs-btn-border-color: var(--border);
+            --bs-btn-hover-bg: var(--primary-light);
+            --bs-btn-hover-color: var(--primary-dark);
+            --bs-btn-hover-border-color: #8bbcff;
+            color: var(--primary);
+            border-color: #cfdaeb;
+            background: #fff;
+        }
+
+        .column .card .btn-outline-primary:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-color: #8bbcff;
+        }
+
+        .column .card .btn-comentarios {
+            width: 100%;
+            margin: 10px 0 0;
+            padding: 7px 10px;
+            color: var(--accent);
+            background: var(--icon-bg);
+            border: 1px solid transparent;
+        }
+
+        .column .card .btn-comentarios:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            width: 26px;
+            height: 26px;
+            display: grid;
+            place-items: center;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            color: #e74c3c;
+            transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.12);
+            background: #fdecea;
+            color: #c0392b;
+        }
+
+        /* MODAIS */
+
+        .modal-content {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        .modal-header.bg-primary { background: linear-gradient(112deg, #0a2b53 0%, #084c96 62%, #168be0 100%) !important; }
+        .modal-title { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+        .modal-body .form-label { font-size: 12px; font-weight: 700; color: var(--primary-dark); }
+        .modal-body .form-control, .modal-body .form-select {
+            font-size: 13px;
+            border-radius: 10px;
+            background-color: #f0f5fc;
+            border-color: transparent;
+        }
+        .modal-body .form-control:focus, .modal-body .form-select:focus {
+            background-color: #fff;
+            border-color: #8bbcff;
+            box-shadow: 0 0 0 3px #e1edff;
+        }
+        .modal-footer .btn { font-size: 13px; font-weight: 700; border-radius: 10px; }
+
+        /* RODAPÉ */
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-top: 42px;
+            padding: 24px 0 28px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .footer-left { display: flex; align-items: center; gap: 11px; }
+        .footer-left img { width: 30px; height: 30px; object-fit: contain; }
+        .footer strong { color: var(--text); font-weight: 700; }
+        .footer-message { text-align: right; font-style: italic; }
+
+        .footer-message::after {
+            content: "";
+            display: inline-block;
+            width: 25px;
+            height: 3px;
+            margin-left: 12px;
+            vertical-align: middle;
+            background: #168be0;
+            border-radius: 3px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 1100px) {
+            .header { padding-left: 4%; padding-right: 4%; }
+            .main { width: 92%; }
+            .kanban-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 700px) {
+            .header { min-height: auto; flex-wrap: wrap; gap: 16px; padding: 16px 5%; }
+            .brand { gap: 10px; }
+            .brand img { width: 57px; height: 57px; }
+            .brand-name { font-size: 17px; }
+            .brand-name span { font-size: 10px; }
+            .brand-divider { height: 35px; }
+            .department { font-size: 11px; }
+
+            .main { width: 90%; padding-top: 22px; }
+
+            .hero { min-height: 170px; padding: 28px 25px; border-radius: 12px; }
+            .hero h1 { font-size: 26px; }
+            .hero p { font-size: 12px; }
+            .hero::before { right: -250px; }
+            .hero::after { right: -18%; width: 50%; }
+
+            .section-heading { margin-top: 30px; }
+            .section-heading h2 { font-size: 19px; }
+            .section-heading p { font-size: 11px; line-height: 1.6; }
+
+            .panel { padding: 18px; }
+            .kanban-board { grid-template-columns: 1fr; gap: 14px; }
+
+            .footer { flex-direction: column; align-items: flex-start; margin-top: 28px; gap: 14px; }
+            .footer-message { text-align: left; line-height: 1.7; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container-box">
-    <div class="text-center">
-      <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
-      <h1>Prefeitura de Caraúbas</h1>
-      <h2>Departamento de Compras</h2>
-      <h3 style="color:#0072CE; margin-top:10px;">Acompanhamento de Processos Licitatórios</h3>
-    </div>
 
-    <!-- Formulário -->
-    <div id="formulario" class="container">
-  <div class="row g-3">
-    <div class="col-12 col-md-6 col-lg">
-      <input type="text" id="numero" placeholder="Número do Processo" class="form-control" />
-    </div>
-    <div class="col-12 col-md-6 col-lg">
-      <input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" />
-    </div>
-    <div class="col-12 col-md-6 col-lg">
-      <select id="tipo" class="form-select">
-        <option value="">Selecione o Tipo</option>
-        <option value="Pregão">Pregão</option>
-        <option value="Dispensa">Dispensa</option>
-        <option value="Inexigibilidade">Inexigibilidade</option>
-        <option value="Adesão">Adesão</option>
-        <option value="Concorrência">Concorrência</option>
-      </select>
-    </div>
-    <div class="col-12 col-md-6 col-lg">
-      <input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" />
-    </div>
-    <div class="col-12 col-md-4 col-lg-2">
-      <button onclick="adicionarProcesso()" class="btn btn-primary w-100">Cadastrar</button>
-    </div>
-  </div>
+    <header class="header">
+        <div class="brand">
+            <img src="img/brasão.png" alt="Brasão da Prefeitura de Caraúbas">
 
-  <div class="row mt-3">
-    <div class="col-12">
-      <label for="secretarias" class="form-label">Secretarias Participantes</label>
-      <div style="height: 180px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
-        <div class="row g-2">
-
-          <!-- 1ª coluna -->
-          <div class="col-6 col-md-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Administração" id="secAdministracao">
-              <label class="form-check-label" for="secAdministracao">Administração</label>
+            <div class="brand-name">
+                <span>Prefeitura de</span>
+                Caraúbas
             </div>
 
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Assistência Social" id="secAssistencia">
-              <label class="form-check-label" for="secAssistencia">Assistência Social</label>
-            </div>
+            <div class="brand-divider"></div>
 
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Controladoria" id="secControladoria">
-              <label class="form-check-label" for="secControladoria">Controladoria</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Cultura" id="secCultura">
-              <label class="form-check-label" for="secCultura">Cultura</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Educação" id="secEducacao">
-              <label class="form-check-label" for="secEducacao">Educação</label>
-            </div>
-          </div>
-
-          <!-- 2ª coluna -->
-          <div class="col-6 col-md-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Finanças" id="secFinancas">
-              <label class="form-check-label" for="secFinancas">Finanças</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Fundo de Assistência Social" id="secFMAS">
-              <label class="form-check-label" for="secFMAS">Fundo de Assistência Social</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Governo" id="secGoverno">
-              <label class="form-check-label" for="secGoverno">Governo</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Infraestrutura" id="secInfraestrutura">
-              <label class="form-check-label" for="secInfraestrutura">Infraestrutura</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Planejamento" id="secPlanejamento">
-              <label class="form-check-label" for="secPlanejamento">Planejamento</label>
-            </div>
-          </div>
-
-          <!-- 3ª coluna -->
-          <div class="col-6 col-md-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Políticas do Campo" id="secCampo">
-              <label class="form-check-label" for="secCampo">Políticas do Campo</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Procuradoria" id="secProcuradoria">
-              <label class="form-check-label" for="secProcuradoria">Procuradoria</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Receita" id="secReceita">
-              <label class="form-check-label" for="secReceita">Receita</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Saúde" id="secSaude">
-              <label class="form-check-label" for="secSaude">Saúde</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Secretaria da Mulher" id="secMulher">
-              <label class="form-check-label" for="secMulher">Secretaria da Mulher</label>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Transportes" id="secTransportes">
-              <label class="form-check-label" for="secTransportes">Transportes</label>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row mt-3">
-    <div class="col-12 col-md-6 offset-md-3">
-      <input type="text" id="filtro" oninput="filtrarProcessos()" placeholder="Filtrar por número, tipo ou descrição..." class="form-control">
-    </div>
-  </div>
-</div>
-
-
-  <div class="kanban-board">
-    <div class="column" id="compra" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3>Compras 🛒</h3>
-    </div>
-    <div class="column" id="licitacao" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3>Licitação 📄</h3>
-    </div>
-    <div class="column" id="finalizado" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3>Finalizado ✅</h3>
-    </div>
-  </div>
-
-<!-- Modal para Atualizar Etapa (Melhorado) -->
-<div class="modal fade" id="etapaModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content shadow">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">🔁 Atualizar Etapa</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <label for="etapaSelect" class="form-label">Selecione a nova etapa:</label>
-        <select id="etapaSelect" class="form-select"></select>
-        <hr>
-        <div id="campoPrazo" style="display:none">
-            <label class="form-label">
-                Prazo para entrega das solicitações
-            </label>
-
-            <input
-                type="date"
-                id="prazoEntrega"
-                class="form-control">
+            <div class="department">Departamento de Compras</div>
         </div>
 
-        <div id="campoSessao" style="display:none">
-            <label class="form-label">
-                Data da Sessão
-            </label>
+        <a href="index.html" class="back-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+            Voltar às ferramentas
+        </a>
+    </header>
 
-            <input
-                type="datetime-local"
-                id="dataSessao"
-                class="form-control">
+    <main class="main">
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">Sistema Utilitários</div>
+                <h1>Acompanhamento de Processos Licitatórios</h1>
+                <p>Cadastre, movimente e monitore o andamento de cada processo em um só lugar.</p>
+            </div>
+        </section>
+
+        <!-- CADASTRO -->
+        <section aria-labelledby="cadastro-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="cadastro-title">Novo processo</h2>
+                    <p>Preencha os dados e selecione as secretarias participantes.</p>
+                </div>
+            </div>
+
+            <div id="formulario" class="panel">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6 col-lg">
+                        <input type="text" id="numero" placeholder="Número do Processo" class="form-control" />
+                    </div>
+                    <div class="col-12 col-md-6 col-lg">
+                        <input type="text" id="descricao" placeholder="Descrição do Processo" class="form-control" />
+                    </div>
+                    <div class="col-12 col-md-6 col-lg">
+                        <select id="tipo" class="form-select">
+                            <option value="">Selecione o Tipo</option>
+                            <option value="Pregão">Pregão</option>
+                            <option value="Dispensa">Dispensa</option>
+                            <option value="Inexigibilidade">Inexigibilidade</option>
+                            <option value="Adesão">Adesão</option>
+                            <option value="Concorrência">Concorrência</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg">
+                        <input type="text" id="protocolo" placeholder="Número do Protocolo" class="form-control" />
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2">
+                        <button onclick="adicionarProcesso()" class="btn btn-primary w-100">Cadastrar</button>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label for="secretarias" class="form-label">Secretarias Participantes</label>
+                        <div class="secretarias-box">
+                            <div class="row g-2">
+
+                                <!-- 1ª coluna -->
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Administração" id="secAdministracao">
+                                        <label class="form-check-label" for="secAdministracao">Administração</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Assistência Social" id="secAssistencia">
+                                        <label class="form-check-label" for="secAssistencia">Assistência Social</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Controladoria" id="secControladoria">
+                                        <label class="form-check-label" for="secControladoria">Controladoria</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Cultura" id="secCultura">
+                                        <label class="form-check-label" for="secCultura">Cultura</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Educação" id="secEducacao">
+                                        <label class="form-check-label" for="secEducacao">Educação</label>
+                                    </div>
+                                </div>
+
+                                <!-- 2ª coluna -->
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Finanças" id="secFinancas">
+                                        <label class="form-check-label" for="secFinancas">Finanças</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Fundo de Assistência Social" id="secFMAS">
+                                        <label class="form-check-label" for="secFMAS">Fundo de Assistência Social</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Governo" id="secGoverno">
+                                        <label class="form-check-label" for="secGoverno">Governo</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Infraestrutura" id="secInfraestrutura">
+                                        <label class="form-check-label" for="secInfraestrutura">Infraestrutura</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Planejamento" id="secPlanejamento">
+                                        <label class="form-check-label" for="secPlanejamento">Planejamento</label>
+                                    </div>
+                                </div>
+
+                                <!-- 3ª coluna -->
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Políticas do Campo" id="secCampo">
+                                        <label class="form-check-label" for="secCampo">Políticas do Campo</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Procuradoria" id="secProcuradoria">
+                                        <label class="form-check-label" for="secProcuradoria">Procuradoria</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Receita" id="secReceita">
+                                        <label class="form-check-label" for="secReceita">Receita</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Saúde" id="secSaude">
+                                        <label class="form-check-label" for="secSaude">Saúde</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Secretaria da Mulher" id="secMulher">
+                                        <label class="form-check-label" for="secMulher">Secretaria da Mulher</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Transportes" id="secTransportes">
+                                        <label class="form-check-label" for="secTransportes">Transportes</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KANBAN -->
+        <section aria-labelledby="kanban-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="kanban-title">Quadro de processos</h2>
+                    <p>Arraste os cards entre as colunas para atualizar a etapa.</p>
+                </div>
+
+                <div class="summary" aria-live="polite">
+                    <span class="summary-chip orange" id="count-compra">Compras: 0</span>
+                    <span class="summary-chip purple" id="count-licitacao">Licitação: 0</span>
+                    <span class="summary-chip green" id="count-finalizado">Finalizado: 0</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12 col-md-6">
+                    <input type="text" id="filtro" oninput="filtrarProcessos()" placeholder="Filtrar por número, tipo ou descrição..." class="form-control panel" style="padding:12px 16px; border:1px solid var(--border); background:#fff;">
+                </div>
+            </div>
+
+            <div class="kanban-board">
+                <div class="column" id="compra" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h3>Compras 🛒</h3>
+                </div>
+                <div class="column" id="licitacao" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h3>Licitação 📄</h3>
+                </div>
+                <div class="column" id="finalizado" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h3>Finalizado ✅</h3>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <img src="img/brasão.png" alt="" aria-hidden="true">
+                <strong>Sistema Utilitários</strong>
+                <span>·</span>
+                <span>© 2025 - Design e Código por Emerson Braga.</span>
+            </div>
+
+            <div class="footer-message">
+                Modernidade, organização e eficiência para Caraúbas.
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Modal para Atualizar Etapa -->
+    <div class="modal fade" id="etapaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">🔁 Atualizar Etapa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="etapaSelect" class="form-label">Selecione a nova etapa:</label>
+                    <select id="etapaSelect" class="form-select"></select>
+                    <hr>
+                    <div id="campoPrazo" style="display:none">
+                        <label class="form-label">Prazo para entrega das solicitações</label>
+                        <input type="date" id="prazoEntrega" class="form-control">
+                    </div>
+
+                    <div id="campoSessao" style="display:none">
+                        <label class="form-label">Data da Sessão</label>
+                        <input type="datetime-local" id="dataSessao" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="salvarEtapa()">Salvar Alterações</button>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" onclick="salvarEtapa()">Salvar Alterações</button>
-      </div>
     </div>
-  </div>
-</div>
 
-<!-- Modal Recebimento de s (Melhorado) -->
-<div class="modal fade" id="dfdModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content shadow">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">📩 Recebimento de Solicitações</h5>
-        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p class="mb-2">Marque as secretarias que já entregaram as Solicitações:</p>
-        <div id="dfdCheckboxes" class="row g-2">
-          <!-- checkboxes renderizados via JS -->
+    <!-- Modal Recebimento de Solicitações -->
+    <div class="modal fade" id="dfdModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">📩 Recebimento de Solicitações</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-2">Marque as secretarias que já entregaram as Solicitações:</p>
+                    <div id="dfdCheckboxes" class="row g-2">
+                        <!-- checkboxes renderizados via JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="salvarDFDs()">Salvar</button>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" onclick="salvarDFDs()">Salvar</button>
-      </div>
     </div>
-  </div>
-</div>
 
-
-  <!-- Modal de Histórico com Estilo Melhorado -->
-<div class="modal fade" id="logModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content shadow">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">📜 Histórico do Processo</h5>
-        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <pre id="logConteudo" style="white-space: pre-wrap; background-color: #f9f9f9; padding: 15px; border-radius: 5px; font-size: 14px; line-height: 1.5;"></pre>
-      </div>
+    <!-- Modal de Histórico -->
+    <div class="modal fade" id="logModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">📜 Histórico do Processo</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="logConteudo" style="white-space: pre-wrap; background-color: #f8faff; padding: 15px; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.6; color: var(--text);"></pre>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- Modal de Edição com Estilo Melhorado -->
-<div class="modal fade" id="modalEdicao" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content shadow">
-      <div class="modal-header bg-warning text-dark">
-        <h5 class="modal-title">✏️ Editar Dados do Processo</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="editNumero" class="form-label">Número do Processo</label>
-          <input type="text" id="editNumero" class="form-control" placeholder="Ex: 2025/00123">
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="modalEdicao" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title">✏️ Editar Dados do Processo</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="editNumero" class="form-label">Número do Processo</label>
+                        <input type="text" id="editNumero" class="form-control" placeholder="Ex: 2025/00123">
+                    </div>
+                    <div class="mb-2">
+                        <label for="editProtocolo" class="form-label">Número do Protocolo</label>
+                        <input type="text" id="editProtocolo" class="form-control" placeholder="Ex: 98765">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-success" onclick="salvarEdicao()">Salvar Alterações</button>
+                </div>
+            </div>
         </div>
-        <div class="mb-2">
-          <label for="editProtocolo" class="form-label">Número do Protocolo</label>
-          <input type="text" id="editProtocolo" class="form-control" placeholder="Ex: 98765">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-success" onclick="salvarEdicao()">Salvar Alterações</button>
-      </div>
     </div>
-  </div>
-</div>
 
-
-<!-- Modal de Comentários e Pendências -->
-<div class="modal fade" id="comentariosModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content shadow">
-      <div class="modal-header bg-primary text-white">
-        <div>
-          <h5 class="modal-title">💬 Comentários e Pendências</h5>
-          <small id="comentariosProcessoTitulo"></small>
+    <!-- Modal de Comentários e Pendências -->
+    <div class="modal fade" id="comentariosModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white">
+                    <div>
+                        <h5 class="modal-title">💬 Comentários e Pendências</h5>
+                        <small id="comentariosProcessoTitulo"></small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="listaComentarios" class="mb-3">
+                        <p class="text-muted">Carregando comentários...</p>
+                    </div>
+                    <form id="formComentario">
+                        <label for="novoComentario" class="form-label fw-semibold">Adicionar comentário</label>
+                        <textarea id="novoComentario" class="form-control" rows="3" maxlength="2000"
+                            placeholder="Descreva uma observação ou pendência..." required></textarea>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">Seu usuário e a data serão registrados automaticamente.</small>
+                            <button type="submit" class="btn btn-primary" id="btnEnviarComentario">Enviar comentário</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body">
-        <div id="listaComentarios" class="mb-3">
-          <p class="text-muted">Carregando comentários...</p>
-        </div>
-        <form id="formComentario">
-          <label for="novoComentario" class="form-label fw-semibold">Adicionar comentário</label>
-          <textarea id="novoComentario" class="form-control" rows="3" maxlength="2000"
-            placeholder="Descreva uma observação ou pendência..." required></textarea>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <small class="text-muted">Seu usuário e a data serão registrados automaticamente.</small>
-            <button type="submit" class="btn btn-primary" id="btnEnviarComentario">Enviar comentário</button>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-</div>
 
-    <footer>
-      © 2025 - Design e Código por Emerson Braga.
-    </footer>
-  </div>
+    <!-- Scripts Firebase + Bootstrap -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Scripts Firebase + Bootstrap -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Configuração do Firebase: cole aqui o seu objeto firebaseConfig (o mesmo que estava
+         no <script> vazio do arquivo antigo). Precisa vir ANTES do processos.js. -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7CMtNAmd4AJiCyho5O0JZSSNFhP1iM_U",
+            authDomain: "controle-ordens-e461e.firebaseapp.com",
+            databaseURL: "https://controle-ordens-e461e-default-rtdb.firebaseio.com",
+            projectId: "controle-ordens-e461e",
+            storageBucket: "controle-ordens-e461e.firebasestorage.app",
+            messagingSenderId: "843214621145",
+            appId: "1:843214621145:web:4d0f5748172b7ba242f1c8",
+            measurementId: "G-S88RXTLRRL"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyA7CMtNAmd4AJiCyho5O0JZSSNFhP1iM_U",
-    authDomain: "controle-ordens-e461e.firebaseapp.com",
-    databaseURL: "https://controle-ordens-e461e-default-rtdb.firebaseio.com",
-    projectId: "controle-ordens-e461e",
-    storageBucket: "controle-ordens-e461e.firebasestorage.app",
-    messagingSenderId: "843214621145",
-    appId: "1:843214621145:web:4d0f5748172b7ba242f1c8",
-    measurementId: "G-S88RXTLRRL"
-  };
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
+        firebase.auth().onAuthStateChanged(user => {
+            const logado = !!user;
+            document.getElementById('formulario').style.display = logado ? 'block' : 'none';
+            window.usuarioLogado = logado;
+        });
+    </script>
 
-  firebase.auth().onAuthStateChanged(user => {
-    const logado = !!user;
-    document.getElementById('formulario').style.display = logado ? 'block' : 'none';
-    window.usuarioLogado = logado;
-  });
-</script>
-<script src="js/processos.js"></script>
+    <script src="js/processos.js"></script>
+
+    <!-- Apenas visual: contadores do resumo e destaque da coluna ao arrastar -->
+    <script>
+        (function () {
+            const colunas = [
+                { id: 'compra', rotulo: 'Compras' },
+                { id: 'licitacao', rotulo: 'Licitação' },
+                { id: 'finalizado', rotulo: 'Finalizado' }
+            ];
+
+            function atualizarContadores() {
+                colunas.forEach(({ id, rotulo }) => {
+                    const coluna = document.getElementById(id);
+                    const total = coluna.querySelectorAll('.card').length;
+                    document.getElementById('count-' + id).textContent = rotulo + ': ' + total;
+                });
+            }
+
+            colunas.forEach(({ id }) => {
+                const coluna = document.getElementById(id);
+
+                new MutationObserver(atualizarContadores)
+                    .observe(coluna, { childList: true, subtree: true });
+
+                coluna.addEventListener('dragenter', () => coluna.classList.add('drag-over'));
+                coluna.addEventListener('dragover', () => coluna.classList.add('drag-over'));
+                coluna.addEventListener('dragleave', (e) => {
+                    if (!coluna.contains(e.relatedTarget)) coluna.classList.remove('drag-over');
+                });
+                coluna.addEventListener('drop', () => coluna.classList.remove('drag-over'));
+            });
+
+            document.addEventListener('dragend', () => {
+                document.querySelectorAll('.column.drag-over')
+                    .forEach(c => c.classList.remove('drag-over'));
+            });
+
+            atualizarContadores();
+        })();
+    </script>
 </body>
 </html>
-

@@ -22,10 +22,21 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+// Escapa texto vindo do banco antes de colocá-lo em innerHTML.
+function esc(valor) {
+  return String(valor ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 window.criarOrdem = function () {
   const numero = document.getElementById('numero').value.trim();
   const fornecedor = document.getElementById('fornecedor').value.trim();
   const secretaria = document.getElementById('secretaria').value.trim();
+  if (!currentUser) return alert("Aguarde a verificação do login e tente novamente.");
   if (!numero || !fornecedor || !secretaria) return alert("Preencha todos os campos.");
 
   const novaOrdem = {
@@ -48,21 +59,32 @@ function limparCampos() {
 }
 
 function renderOrdem(id, ordem) {
+  const coluna = document.getElementById(ordem.status);
+  if (!coluna) return; // status desconhecido: ignora em vez de quebrar a lista
+
   const card = document.createElement('div');
-  card.className = `card ${ordem.status}`;
+  card.className = 'card';
   card.draggable = true;
   card.dataset.id = id;
   card.ondragstart = drag;
 
   card.innerHTML = `
-    <button class="close-btn" onclick="removerOrdem('${id}')">×</button>
-    <strong>#${ordem.numero}</strong><br>
-    ${ordem.fornecedor}<br>
-    <em>${ordem.secretaria}</em><br>
-    <small>${ordem.ultimaAcao || ''}</small>
+    <button class="remove-btn" title="Remover ordem" onclick="removerOrdem('${id}')">×</button>
+
+    <span class="card-numero">#${esc(ordem.numero)}</span>
+    <p class="card-desc">${esc(ordem.fornecedor)}</p>
+
+    <div class="card-meta">
+      <div class="meta-row">
+        <b>Secretaria</b>
+        <span class="tag-sec">${esc(ordem.secretaria)}</span>
+      </div>
+    </div>
+
+    <div class="card-date">${esc(ordem.ultimaAcao || '')}</div>
   `;
 
-  document.getElementById(ordem.status).appendChild(card);
+  coluna.appendChild(card);
 }
 
 function drag(ev) {
@@ -73,6 +95,7 @@ window.drop = function (ev) {
   ev.preventDefault();
   const id = ev.dataTransfer.getData("id");
   const novoStatus = ev.target.closest('.column').id;
+  if (!currentUser) return;
 
   db.ref('ordens/' + id).once('value').then(snapshot => {
     const ordem = snapshot.val();
@@ -90,6 +113,7 @@ window.allowDrop = function (ev) {
 }
 
 window.removerOrdem = function (id) {
+  if (!currentUser) return alert("Aguarde a verificação do login e tente novamente.");
   if (confirm("Deseja remover esta ordem?")) {
     db.ref('ordens/' + id).update({
       ultimaAcao: `Removido por: ${currentUser.email}`

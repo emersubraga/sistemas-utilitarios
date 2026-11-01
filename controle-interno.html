@@ -1,102 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="img/brasão.png" />
-  <title>Sistemas Utilitários</title>
-  <meta property="og:title" content="Sistemas Utilitários" />
-  <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
-  <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0072CE, #29ABE2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <title>Controle Interno | Prefeitura de Caraúbas</title>
 
-    .container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      text-align: center;
-      max-width: 700px;
-      width: 90%;
-    }
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Sistemas Utilitários" />
+    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
 
-    .logo {
-      margin-bottom: -10px;
-    }
-
-    h1 { 
-      font-size: 1.6rem;
-      margin-bottom: -15px;
-      color: #F36A21;
-    } 
-
-    h2 { 
-      font-size: 1rem;
-      font-weight: 400;
-      margin-bottom: 30px;
-      color: #002b5c;
-    }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-    }
-
-    .btn {
-      color: white;
-      padding: 14px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-      display: block;
-    }
-
-    .btn-orange { background: #F36A21; } 
-    .btn-orange:hover { background: #d95d1b; } 
-
-    .btn-yellow { background: #FFD600; color: #333; } 
-    .btn-yellow:hover { background: #e6c200; } 
-    
-    .btn-blue { background: #0072CE; } 
-    .btn-blue:hover { background: #005fa8; } 
-    
-    .btn-lightblue { background: #29ABE2; } 
-    .btn-lightblue:hover { background: #1f8cb8; }
-
-    footer {
-      margin-top: 25px;
-      font-size: 0.8rem;
-      color: #777;
-    }
-  </style>
+    <link rel="icon" href="img/brasão.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
+
 <body>
-  <div class="container">
-    <img src="img/brasão.png" alt="Prefeitura" class="logo" width="120">
-    <h1>Prefeitura de Caraúbas</h1>
-    <h2>Departamento de Compras</h2>
 
-    <div class="buttons">
-      <a href="login.html" class="btn btn-blue">⚙️ Controle de Ordens</a>
-      <a href="login-processos.html" class="btn btn-yellow">📊 Acompanhamento de Processos Licitatórios</a>
-    </div>
+    <header class="header">
+        <div class="brand">
+            <img src="img/brasão.png" alt="Brasão da Prefeitura de Caraúbas">
 
-    <footer>
-      © 2025 - Design e Código por Emerson Braga.
-    </footer>
-  </div>
+            <div class="brand-name">
+                <span>Prefeitura de</span>
+                Caraúbas
+            </div>
+
+            <div class="brand-divider"></div>
+
+            <div class="department">Departamento de Compras</div>
+        </div>
+
+        <a href="index.html" class="back-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+            Voltar às ferramentas
+        </a>
+    </header>
+
+    <main class="main ">
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">Controle Interno</div>
+                <h1>Controle Interno</h1>
+                <p>Acompanhe e gerencie os processos internos.</p>
+            </div>
+        </section>
+
+        <section aria-labelledby="menu-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="menu-title">Escolha o sistema</h2>
+                    <p>É necessário entrar com o seu usuário para continuar.</p>
+                </div>
+            </div>
+
+            <div class="tools-grid">
+                <a href="login.html" class="tool-card teal">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24"><path d="m12 2 2.2 2.1 3-.1.9 2.8 2.5 1.6-.9 2.9.9 2.9-2.5 1.6-.9 2.8-3-.1L12 21l-2.2-2.1-3 .1-.9-2.8-2.5-1.6.9-2.9-.9-2.9 2.5-1.6.9-2.8 3 .1z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
+
+                    <div class="tool-info">
+                        <h3>Controle de Ordens</h3>
+                        <p>Registre e acompanhe as ordens até o envio ao fornecedor.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+                </a>
+                <a href="login-processos.html" class="tool-card navy">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24"><path d="M3 13h5v8H3zM10 7h5v14h-5zM17 3h5v18h-5z"></path></svg></div>
+
+                    <div class="tool-info">
+                        <h3>Acompanhamento de Processos Licitatórios</h3>
+                        <p>Monitore o andamento de cada etapa dos processos.</p>
+                    </div>
+
+                    <span class="tool-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+                </a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <img src="img/brasão.png" alt="" aria-hidden="true">
+                <strong>Sistema Utilitários</strong>
+                <span>·</span>
+                <span>© 2025 - Design e Código por Emerson Braga.</span>
+            </div>
+
+            <div class="footer-message">
+                Modernidade, organização e eficiência para Caraúbas.
+            </div>
+        </footer>
+
+    </main>
 </body>
 </html>
