@@ -375,6 +375,8 @@ input[type="file"]::file-selector-button:hover { background: #d8e9ff; }
     transition: 0.2s ease;
 }
 
+.btn[hidden] { display: none; }
+
 .btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
 .btn:focus-visible { outline: 3px solid #8bbcff; outline-offset: 2px; }
 

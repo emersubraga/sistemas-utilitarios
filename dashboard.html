@@ -93,6 +93,10 @@
 
         .back-link:hover { background: var(--primary-light); color: var(--primary-dark); }
 
+        .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .back-link.is-current { background: var(--primary); color: #fff; }
+        .back-link.is-current:hover { background: var(--primary-dark); color: #fff; }
+
         .back-link svg {
             width: 16px; height: 16px;
             stroke: currentColor; stroke-width: 2; fill: none;
@@ -512,10 +516,16 @@
             <div class="department">Departamento de Compras</div>
         </div>
 
-        <a href="index.html" class="back-link">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
-            Voltar às ferramentas
-        </a>
+        <div class="header-actions">
+            <a href="notas-fiscais.html" class="back-link is-current">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v15H6z"></path><path d="M14 2v6h5M9 13h7M9 17h7"></path></svg>
+                Notas Fiscais
+            </a>
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+                Voltar às ferramentas
+            </a>
+        </div>
     </header>
 
     <main class="main">

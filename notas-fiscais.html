@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notas Fiscais | Prefeitura de Caraúbas</title>
+
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Sistemas Utilitários" />
+    <meta property="og:url" content="https://emersubraga.github.io/sistemas-utilitarios/" />
+    <meta property="og:image" content="https://emersubraga.github.io/sistemas-utilitarios/img/logo-preto.png" />
+
+    <link rel="icon" href="img/brasão.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+
+    <style>
+        .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .back-link.is-current { background: var(--primary); color: #fff; }
+
+        /* RESUMO */
+
+        .section-heading { flex-wrap: wrap; }
+        .summary { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .summary-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .summary-chip.orange { background: #fff0e8; color: #f36b2a; }
+        .summary-chip.purple { background: #f0eaff; color: #7446e8; }
+        .summary-chip.green  { background: #e7f8ed; color: #169c50; }
+
+        /* FORMULÁRIO */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px 16px;
+        }
+
+        .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+        .field.span-2 { grid-column: span 2; }
+        .field.span-all { grid-column: 1 / -1; }
+
+        .field label { font-size: 12px; font-weight: 700; color: var(--primary-dark); }
+        .field label .req { color: #e74c3c; }
+        .field label .opt { font-weight: 500; color: var(--muted); }
+
+        .field input, .field select, .field textarea { flex: none; width: 100%; }
+        .field textarea { min-height: 76px; }
+
+        .field input[readonly] {
+            background: #e9eef6;
+            color: var(--muted);
+            cursor: not-allowed;
+        }
+
+        .field .hint { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+        .form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+        .form-actions .btn { width: auto; margin-top: 0; padding: 13px 28px; }
+
+        .modo-edicao {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #8a5a00;
+            background: #fff6e0;
+            border: 1px solid #f6dfa6;
+        }
+
+        .modo-edicao[hidden] { display: none; }
+
+        /* FILTROS */
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 2fr 1.4fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 16px;
+        }
+
+        .toolbar .field input, .toolbar .field select { background-color: #fff; border-color: var(--border); }
+        .toolbar-actions { display: flex; gap: 10px; }
+        .toolbar-actions .btn { width: auto; margin-top: 0; padding: 12px 18px; white-space: nowrap; }
+
+        /* TABELA */
+
+        .panel.flush { padding: 0; overflow: hidden; }
+        .table-wrap { overflow-x: auto; }
+        .table-wrap[hidden] { display: none; }
+
+        table.notas { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+        .notas th {
+            text-align: left;
+            padding: 13px 16px;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--muted);
+            background: #f8faff;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notas td {
+            padding: 14px 16px;
+            vertical-align: top;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notas tbody tr:last-child td { border-bottom: 0; }
+        .notas tbody tr:hover { background: #f8faff; }
+
+        .cell strong { display: block; font-size: 13px; font-weight: 800; color: var(--primary-dark); }
+        .cell small { display: block; margin-top: 3px; font-size: 11px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+        .cell small.obs { font-style: italic; }
+
+        .tag-sec {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10.5px;
+            font-weight: 700;
+            background: #e9f2ff;
+            color: var(--primary);
+        }
+
+        .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .icon-btn {
+            padding: 6px 12px;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            background: #fff;
+            border: 1px solid #cfdaeb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .icon-btn:hover { background: var(--primary-light); border-color: #8bbcff; }
+        .icon-btn.danger { color: #c0392b; }
+        .icon-btn.danger:hover { background: #fdecea; border-color: #f1a9a0; }
+
+        .estado-vazio {
+            padding: 54px 24px;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        .estado-vazio[hidden] { display: none; }
+
+        .mais { text-align: center; margin-top: 16px; }
+        .mais .btn { width: auto; margin-top: 0; padding: 11px 26px; }
+        .mais[hidden], #btn-mais[hidden], .btn[hidden] { display: none; }
+
+        /* AVISO */
+
+        .aviso {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translate(-50%, 20px);
+            max-width: 90vw;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            background: var(--primary-dark);
+            box-shadow: 0 12px 30px rgba(9, 45, 89, 0.25);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 20;
+        }
+
+        .aviso.show { opacity: 1; transform: translate(-50%, 0); }
+        .aviso.ok { background: #169c50; }
+        .aviso.erro { background: #c0392b; }
+
+        /* RESPONSIVO */
+
+        @media (max-width: 1100px) {
+            .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .toolbar-actions { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 820px) {
+            .notas thead { display: none; }
+            .notas, .notas tbody, .notas tr, .notas td { display: block; width: 100%; }
+            .notas tr { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+            .notas tbody tr:last-child { border-bottom: 0; }
+
+            .notas td {
+                display: flex;
+                justify-content: space-between;
+                gap: 16px;
+                padding: 7px 0;
+                border: 0;
+                text-align: right;
+            }
+
+            .notas td::before {
+                content: attr(data-label);
+                flex-shrink: 0;
+                padding-top: 2px;
+                font-size: 10.5px;
+                font-weight: 700;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                text-align: left;
+                color: var(--muted);
+            }
+
+            .row-actions { justify-content: flex-end; }
+        }
+
+        @media (max-width: 700px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .field.span-2 { grid-column: auto; }
+            .toolbar { grid-template-columns: 1fr; }
+            .toolbar-actions { flex-direction: column; }
+            .toolbar-actions .btn { width: 100%; }
+            .form-actions .btn { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="brand">
+            <img src="img/brasão.png" alt="Brasão da Prefeitura de Caraúbas">
+
+            <div class="brand-name">
+                <span>Prefeitura de</span>
+                Caraúbas
+            </div>
+
+            <div class="brand-divider"></div>
+
+            <div class="department">Departamento de Compras</div>
+        </div>
+
+        <div class="header-actions">
+            <a href="dashboard.html" class="back-link">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+                Controle de Ordens
+            </a>
+            <a href="index.html" class="back-link">Ferramentas</a>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">Controle de Ordens</div>
+                <h1>Notas Fiscais</h1>
+                <p>Registre a entrega de cada nota fiscal à secretaria responsável e consulte todo o histórico.</p>
+            </div>
+        </section>
+
+        <!-- CADASTRO -->
+        <section aria-labelledby="form-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="form-title">Nova entrega</h2>
+                    <p>Os campos marcados com * são obrigatórios. O usuário que registra fica salvo automaticamente.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="modo-edicao" id="modo-edicao" hidden>
+                    <span aria-hidden="true">✏️</span>
+                    <span id="modo-edicao-texto"></span>
+                </div>
+
+                <form id="form-nota" autocomplete="off">
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label for="numeroNota">Número da nota <span class="req">*</span></label>
+                            <input type="text" id="numeroNota" placeholder="Ex: 12345" required>
+                        </div>
+
+                        <div class="field span-2">
+                            <label for="fornecedor">Fornecedor <span class="req">*</span></label>
+                            <input type="text" id="fornecedor" placeholder="Nome ou razão social do fornecedor" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="ordem">Ordem de compra/serviço <span class="req">*</span></label>
+                            <input type="text" id="ordem" placeholder="Ex: 0123/2026" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="protocolo">Protocolo <span class="req">*</span></label>
+                            <input type="text" id="protocolo" placeholder="Número do protocolo" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="secretaria">Secretaria <span class="req">*</span></label>
+                            <select id="secretaria" required>
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+
+                        <div class="field span-2">
+                            <label for="responsavel">Responsável pelo recebimento <span class="req">*</span></label>
+                            <input type="text" id="responsavel" placeholder="Nome de quem recebeu a nota na secretaria" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="dataEntrega">Data de entrega <span class="req">*</span></label>
+                            <input type="date" id="dataEntrega" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="dataRecebimento">Data de recebimento da nota <span class="opt">(opcional)</span></label>
+                            <input type="date" id="dataRecebimento">
+                            <span class="hint">Quando a nota chegou ao departamento.</span>
+                        </div>
+
+                        <div class="field">
+                            <label for="competencia">Competência <span class="opt">(opcional)</span></label>
+                            <input type="month" id="competencia" placeholder="AAAA-MM">
+                            <span class="hint">Mês/ano do faturamento.</span>
+                        </div>
+
+                        <div class="field">
+                            <label for="valor">Valor da nota <span class="opt">(opcional)</span></label>
+                            <input type="text" id="valor" inputmode="decimal" placeholder="Ex: 1.234,56">
+                        </div>
+
+                        <div class="field span-2">
+                            <label for="entreguePor">Entregue por</label>
+                            <input type="text" id="entreguePor" readonly tabindex="-1" placeholder="Preenchido com o seu usuário">
+                        </div>
+
+                        <div class="field span-all">
+                            <label for="observacoes">Observações <span class="opt">(opcional)</span></label>
+                            <textarea id="observacoes" rows="2" maxlength="1000" placeholder="Ex: nota entregue com pendência de assinatura, 2ª via, etc."></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn" type="submit" id="btnSalvar">Registrar entrega</button>
+                        <button class="btn btn-outline" type="button" id="btnCancelar" hidden>Cancelar edição</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- REGISTROS -->
+        <section aria-labelledby="lista-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="lista-title">Entregas registradas</h2>
+                    <p>Pesquise por nota, fornecedor, ordem, protocolo ou responsável.</p>
+                </div>
+
+                <div class="summary" aria-live="polite">
+                    <span class="summary-chip" id="chip-total">Registros: 0</span>
+                    <span class="summary-chip purple" id="chip-valor">Valor: R$ 0,00</span>
+                    <span class="summary-chip green" id="chip-mes">Entregas no mês: 0</span>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="field">
+                    <label for="filtro-busca">Buscar</label>
+                    <input type="search" id="filtro-busca" placeholder="Digite para filtrar...">
+                </div>
+
+                <div class="field">
+                    <label for="filtro-secretaria">Secretaria</label>
+                    <select id="filtro-secretaria">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="filtro-de">Entrega de</label>
+                    <input type="date" id="filtro-de">
+                </div>
+
+                <div class="field">
+                    <label for="filtro-ate">Entrega até</label>
+                    <input type="date" id="filtro-ate">
+                </div>
+
+                <div class="toolbar-actions">
+                    <button class="btn btn-outline" type="button" id="btn-limpar">Limpar</button>
+                    <button class="btn" type="button" id="btn-csv">Exportar CSV</button>
+                </div>
+            </div>
+
+            <div class="panel flush">
+                <div class="table-wrap" id="wrap-tabela" hidden>
+                    <table class="notas">
+                        <thead>
+                            <tr>
+                                <th>Nota</th>
+                                <th>Fornecedor</th>
+                                <th>Protocolo</th>
+                                <th>Secretaria</th>
+                                <th>Recebido por</th>
+                                <th>Entrega</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo"></tbody>
+                    </table>
+                </div>
+
+                <div class="estado-vazio" id="estado-vazio">Carregando registros...</div>
+            </div>
+
+            <div class="mais">
+                <button class="btn btn-outline" type="button" id="btn-mais" hidden>Mostrar mais</button>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">
+                <img src="img/brasão.png" alt="" aria-hidden="true">
+                <strong>Sistema Utilitários</strong>
+                <span>·</span>
+                <span>© 2025 - Design e Código por Emerson Braga.</span>
+            </div>
+
+            <div class="footer-message">
+                Modernidade, organização e eficiência para Caraúbas.
+            </div>
+        </footer>
+
+    </main>
+
+    <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+    <!-- Firebase + lógica da página -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/notas.js"></script>
+</body>
+</html>
