@@ -276,7 +276,7 @@
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 20px;
-            align-items: start;
+            align-items: stretch; /* todas as colunas acompanham a altura da mais cheia */
         }
 
         .column {
@@ -284,7 +284,7 @@
             --icon-bg: #fff0e8;
 
             position: relative;
-            min-height: 260px;
+            min-height: 420px;
             padding: 18px 16px 16px;
             overflow: hidden;
             background: #f1f6fd;
